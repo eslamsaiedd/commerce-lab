@@ -23,7 +23,6 @@ fetch('https://fakestoreapi.com/products')
 .then(data => {
     products = data
     showDetail()
-    mainProduct()
 })
 
 
