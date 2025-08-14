@@ -3,37 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./fav-page.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <title>favorite page</title>
 </head>
 <style>
-:root{
-    --primary:#ed9900;
-    --primary-hover:#d88c00;
-    --main-color:#eee;
-}
-*{
-    margin: 0px;
-    padding: 0px;
-}
-body {
-    background-color: #eee;
-}
-.container {
-    font-family: Arial, Helvetica, sans-serif;
-    margin: auto;
-    padding: 30px 50px;
-}
-.fav-product{
-    grid-template-columns: repeat(4,1fr);   
-}
-.header {
-    display: flex;
-    align-items: center;
-    padding-bottom: 30px;
-    margin-bottom: 30px;
-    border-bottom:1px solid #e0e0e0;
-}
+
+
+
+
     .arrow-back {
         margin-right: 20px;
         cursor: pointer;
@@ -52,7 +30,7 @@ body {
         display: flex;
         flex-direction: column;
         position: relative;
-        width: 85%;
+        border-radius: 10px;
         height: 400px;
         gap: 8px;
         padding: 0px 12px;
@@ -74,7 +52,8 @@ body {
             border-radius: 10px;
             margin-bottom: 10px;
                 img {
-                    width: 85%;
+                    max-width: 85%;
+                    width: 70%;
                     height: 200px;
                     position: relative;
                 }
@@ -127,6 +106,12 @@ body {
             'GRAD' 0,
             'opsz' 24
         }
+        .material-symbols-outlined {
+            font-size: 20px !important;
+        }
+        .navFontSize {
+            font-size: 24px !important;
+        }
         @media(max-width: 1200px) {
             .fav-product {
                 grid-template-columns: repeat(3,1fr);   
@@ -160,11 +145,61 @@ body {
 </style>
 <body>
     <div class="container">
-        <div class="header">
-            <span onclick="history.back()" class="material-symbols-outlined arrow-back">
-                arrow_back
-            </span>
-            <div class="title-header">FAVORITE PRODUCTS</div>
+
+        <header class="header">
+            <div class="menu">
+                <span class="material-symbols-outlined show-list">
+                    menu
+                </span>
+            </div>
+
+            <div class="navBar">
+                <a href="home.html">Home</a>
+                <a href="men-page.html">Men</a>
+                <a href="women-page.html">Women</a>
+                <a href="electronics-page.html">Electronics</a>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" id="searchInput" onkeyup="search()" class="input" placeholder="search..." >
+                <span class="material-symbols-outlined styleIcon">
+                    search
+                </span>
+            </div>
+
+            <div class="cart">
+
+                <div class="change-color">
+                    <!--? custom input checkbox for change color page -->
+                    <input type="checkbox" id="custom-input">
+                </div>
+
+                <a class="favorite-page" href="fav-page.html">
+                    <div class="countTheProducts"></div>
+                    <span class="material-symbols-outlined  header-fav navFontSize">
+                        favorite
+                    </span>
+                </a>
+
+                <div class="shopping">
+                    <a href="shopping-page.html">
+                        <div class="countTheProductsShop"></div>
+                        <span class="material-symbols-outlined style-cart-icon navFontSize" >
+                            shopping_cart
+                        </span>
+                    </a>
+                </div>
+
+            </div>
+        </header>
+        <div class="routs">
+            <div class="previous-route">
+                <a href="./home.html">Home</a>
+            </div> 
+             / 
+             <div class="current-route"> 
+                <a href="">Favorite products</a>
+            </div>
         </div>
         <div class="fav-product"></div>
     </div>

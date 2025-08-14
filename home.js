@@ -7,28 +7,31 @@ let jsondata;
 let listProduct = []
 let carts = []
 let favArrFromHome =  JSON.parse(localStorage.getItem('favArrFromHome')) || []
-
-let addFromHome =  JSON.parse(localStorage.getItem('addFromHome')) || []
+let addFromHome =  JSON.parse(localStorage.getItem('addFromHome')) || [] 
+localStorage.getItem("updateButton")
 
 FirstRequestToGraph()
 function FirstRequestToGraph() {
-    return fetch('https://fakestoreapi.com/products ', {
+    return fetch('https://fakestoreapi.com/products', {
         method: 'GET'
     })
 .then(function(response) {
     return response.json();
 })
+
 .then(function(json){
     listProduct = json
     listProduct.filter((ele, index)=> { allProduct.innerHTML += 
             `
                 <div class="product" id="${++index}">
-                    <img class="fav" src="https://cf-vectorizer-live.s3.amazonaws.com/vectorized/2k3ibr2cemKXwpYV9ZlXxHVr2Ab/2k3ik53QXe73xFDcEtT64b46vX9.svg">
+                    <span class="material-symbols-outlined fav">
+                        favorite
+                    </span>   
                     <a class="newProduct" href="singlePro.html?id=${ele.id}" >
                         <div class="main-image">
-                            <img class="image" src="${ele.image}" alt="">
+                            <img class="image" loading="lazy" src="${ele.image}" alt="...">
                         </div>
-                        <div class="description">${ele.title.split(' ').slice(0,6).join(" ")}</div>
+                        <div class="description">${ele.title.split(' ').slice(0,3).join(" ")}</div>
                     </a>
                     <div data-rating="${ele.rating.rate}" class="star-rating">
                         <span class="material-symbols-outlined">
@@ -57,9 +60,10 @@ function FirstRequestToGraph() {
             `
         })
 
-                    //* show rate product
 
-         function rating() {
+        addedItem() // called function updating button (add to cart => added) 
+        //* show rate product
+        function rating() {
 
             listProduct.forEach((element, index) => {
                 
@@ -83,22 +87,34 @@ function FirstRequestToGraph() {
         rating()
     })
 }
-//? search bar 
 
-
-function search() {
-    let searchInput = document.getElementById('searchInput').value.toUpperCase()
-    let product = document.querySelectorAll(".product")
-    let productName = document.getElementsByTagName("h2")
-
-    for (let i = 0; i < productName.length; i++) {
-        if (productName[i].innerHTML.toUpperCase().indexOf(searchInput) >= 0) {
-            product[i].style.display = ""
-        }else {
-            product[i].style.display = "none"
-        }    
-    }    
+// updating text's button (add to cart => added) 
+function addedItem(){
+    let addButton = document.querySelectorAll(".addButton")
+    let get_id = JSON.parse(localStorage.getItem('addFromHome'))
+    addButton.forEach(btn => {
+            get_id.forEach(ele => {
+            if (ele.id == btn.parentElement.parentElement.id) {
+                btn.textContent ="Added"
+            }
+        })
+    })
 }
+    
+//? search bar 
+// function search() {
+//     let searchInput = document.getElementById('searchInput').value.toUpperCase()
+//     let product = document.querySelectorAll(".product")
+//     let productName = document.getElementsByTagName("h2")
+
+//     for (let i = 0; i < productName.length; i++) {
+//         if (productName[i].innerHTML.toUpperCase().indexOf(searchInput) >= 0) {
+//             product[i].style.display = ""
+//         }else {
+//             product[i].style.display = "none"
+//         }    
+//     }    
+// }
 
 //? shopping cart
 
@@ -142,56 +158,50 @@ setTimeout(() => {
     btn.forEach((item)=> {
         item.addEventListener('click' ,  function() {addProductToCart(item)})
     })
-}, 1000);
+}, 1000)
+
+//! add product for shopping page => buy this product
 
 function addProductToCart(item) {
-    let element
-    if (carts.length > 0) {
-
-        carts.forEach(cart => {
-            let newCart = document.createElement("div")
-            newCart.classList.add('products')
-            let positionProduct = listProduct.findIndex((value) => value.id == cart.product_id)
-            let info = listProduct[positionProduct] 
-            newCart.id = info.id
-        })
-
-        element = {
-            img: item.parentElement.parentElement.children[1].children[0].children[0].src,
-            id: item.parentElement.parentElement.id,
-            title: item.parentElement.parentElement.children[1].children[1].textContent,
-            price: item.parentElement.children[0].textContent,
-            
-        }
-        addFromHome.push(element)
+    let element = {
+        img: item.parentElement.parentElement.children[1].children[0].children[0].src,
+        id: item.parentElement.parentElement.id,
+        title: item.parentElement.parentElement.children[1].children[1].textContent,
+        price: item.parentElement.children[0].textContent,
+        quantity: 1 
     }
+    
+    addFromHome.push(element)
     localStorage.setItem('addFromHome', JSON.stringify(addFromHome)) 
+    countFavProducts()
+    addedItem()
 }
 
-function init() {
-    fetch("https://fakestoreapi.com/products")
+
+async function init() {
+   await fetch("https://fakestoreapi.com/products")
     .then(response => response.json())
     .then(data => {
         listProduct = data
-            // get cart from memory
-        if (localStorage.getItem('cart')){
-            carts = JSON.parse(localStorage.getItem('cart'))
-        }
+        changeHeart()
+        loadFavProduct()
     })
+    
 }
 init()
   
 //* change heart when click on it and send to favorite page. 
 
-setTimeout(() => {
-
+function changeHeart() {
     let favs = document.querySelectorAll(".fav")
+    
     favs.forEach((fav) => {
 
         fav.addEventListener("click", function addToFavorite(e) {
-        
-            if (e.currentTarget.src = "https://cf-vectorizer-live.s3.amazonaws.com/vectorized/2k3ibr2cemKXwpYV9ZlXxHVr2Ab/2k3ik53QXe73xFDcEtT64b46vX9.svg") {
-                e.currentTarget.src = "https://i.ibb.co/S5nQtT8/free-heart-icon-431-thumb-removebg-preview.png"
+            
+            if (!e.currentTarget.classList.contains("clicked")) {
+                fav.classList.add("clicked")
+                
                 let elem = {
                     img:e.currentTarget.parentElement.children[1].children[0].children[0].src,
                     id: e.currentTarget.parentElement.id,
@@ -200,33 +210,43 @@ setTimeout(() => {
                     rating: e.currentTarget.parentElement.children[2].dataset.rating
                 }
                 
+                console.log(elem.rating);
                 favArrFromHome.push(elem)
             }
             localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome)) 
+            countFavProducts()
+            displayToast()
         })
-
     })
-    
-}, 1000);
+}
 
     
 //! menu list 
 
-function showList() {
-    document.querySelector('.list-menu').style.display = "block"
-}
-function hideList() {
-    document.querySelector('.list-menu').style.display = "none"
-}
-
-//! create active class name for navBar 
-let navBar = document.querySelectorAll(".navBar a")
-let windowPathName = window.location.pathname
-navBar.forEach(link => {
-    if (link.href.includes(windowPathName)) {
-        link.classList.add('active')
-    }
+document.querySelector('.menu').addEventListener("click", () => {    
+    document.querySelector('.list-menu').style.display = "flex"
+    document.querySelector('.information').style.display = "flex"
 })
+
+document.querySelector('.closeList').addEventListener("click", () => {
+    document.querySelector('.list-menu').style.display = "none"
+})
+
+
+//! make the header fixed => (hide on scroll, show on scroll up)
+let lastScrollTop = 0;
+const header = document.querySelector("header");
+
+window.addEventListener("scroll", function() {
+let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+if (currentScroll > lastScrollTop) {
+    header.style.top = "-80px"; 
+} else {
+    header.style.top = "20px";
+}
+lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
+});
 
 //! if write any thing wrang display 404 page
 
@@ -256,8 +276,8 @@ window.onscroll = function () {
 }
 
 //! when click on the custom input change the color mode
-let customInput = document.querySelector("#custom-input")
 
+let customInput = document.querySelector("#custom-input")
 let darkMode = false 
 customInput.addEventListener("click", function switchDarkMode() {
 
@@ -281,8 +301,45 @@ customInput.addEventListener("click", function switchDarkMode() {
     }
 })
 
+//! how many product in this array(favArrFromHome)
+
+countFavProducts()
+function countFavProducts() {
+    if (!favArrFromHome.length == 0) {
+        let countTheProductsFAv = document.querySelector(".countTheProducts")
+        countTheProductsFAv.textContent = `${favArrFromHome.length}`
+    }
+    
+    if (!addFromHome.length == 0) {
+        let countTheProductsShop = document.querySelector(".countTheProductsShop")
+        countTheProductsShop.textContent = `${addFromHome.length}`
+    }
+}
+
+
+//! if added a new product to the favorite page => show the toast
+
+function displayToast() {
+    let toast = document.querySelector(".toastr")
+    toast.classList.add("active-toast")
+
+       setTimeout(() => {
+        toast.classList.remove("active-toast")
+    },4000)
+}
+
+//! If the product exists in favorite array , add => (clicked) 
+function loadFavProduct() {
+    
+    favArrFromHome.forEach((element) =>{
+        document.querySelectorAll(".product").forEach((product) =>{
+            if (element.id == product.id) {
+                product.children[0].classList.add("clicked")
+           }
+        })
+    })
+}
 
 
 
 })
-

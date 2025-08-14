@@ -1,5 +1,4 @@
 
-
 let favArrFromHome =  JSON.parse(localStorage.getItem('favArrFromHome')) || []
 
 for (let i = 0; i < favArrFromHome.length; i++){
@@ -16,7 +15,7 @@ for (let i = 0; i < favArrFromHome.length; i++){
         <div class="main-image">
             <img class="image" src="${favArrFromHome[i].img}" alt="">
         </div>
-        <div class="description">${favArrFromHome[i].title}</div>
+        <div class="description">${favArrFromHome[i].title.split(' ').slice(0,4).join(" ")}</div>
     </a>
     <div class="star-rating">
         <span class="material-symbols-outlined fixedFontSize">
@@ -47,13 +46,11 @@ for (let i = 0; i < favArrFromHome.length; i++){
 }
 
 
-{/* <div class="priceOfPiece">${favArrFromHome[i].price}</div>
-    <button class="addButton">
-        Add to cart
-    </button> */}
+
 
 //! display rating on products 
 function rating() {
+    
     favArrFromHome.forEach((element, index) => {
         
         let rating = Math.round(element.rating);  // Round the rating for each product
@@ -68,7 +65,7 @@ function rating() {
                     stars[i].classList.add("changeColorMode");   
                 }
             }
-        } else {
+        }else {
             console.warn(`No stars found for product at index ${index}`);
         }
     });
@@ -111,4 +108,26 @@ function removeProductFromFav() {
     })
 }
 removeProductFromFav()
+
+// updating text's button (add to cart => added) 
+function addedItem() {
+    let addButton = document.querySelectorAll(".addButton")
+    let get_id = JSON.parse(localStorage.getItem('addFromHome'))
+    addButton.forEach(btn => {
+            get_id.forEach(ele => {
+            if (ele.id == btn.parentElement.parentElement.id) {
+                btn.textContent ="Added"
+            }
+        })
+    })
+}
+addedItem()
+
+// catch the current page url 
+let currentRoute = document.querySelector(".current-route a")
+currentRoute.href = window.location.href
+// console.log(currentRoute);
+
+
+
 

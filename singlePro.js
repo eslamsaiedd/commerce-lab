@@ -1,155 +1,109 @@
-let removeCount = document.querySelector('.remove')
-let addCount = document.querySelector('.add')
-let count = document.querySelector('.count')
-let numberOfRequests = document.querySelector('.number-of-requests')
-let addToCart = document.querySelector('.addToCaret')
-let cart = document.querySelector('.cart')
-let cartPage = document.querySelector('.cart-page')
-let flexEmpty = document.querySelector('.flex-empty')
-let close = document.getElementById('close-btn')
-let multiply = document.querySelector('.multiply')
-let btn = document.querySelector('.Checkout')
-let detailsPro = document.querySelector('.flex-product') 
 
 let favArrFromHome =  JSON.parse(localStorage.getItem('favArrFromHome')) || []
 let addFromHome =  JSON.parse(localStorage.getItem('addFromHome')) || []
+let finalPage = localStorage.getItem('finalPage') 
+let productId = new URLSearchParams(window.location.search).get('id')
 
 
-// paint the product here
+let addProFromSinglePage = document.querySelector(".addProFromSinglePage")
 
+window.addEventListener('load', () => {
+
+//! paint the product here
 let products = null
-fetch('https://fakestoreapi.com/products')
-.then(response => response.json())
-.then(data => {
-    products = data
-    showDetail()
+async function loadData() {
+        const singleProductData = await fetch(`https://fakestoreapi.com/products/${productId}`);
+        products = await singleProductData.json();
+        await showSingleProduct();
+        loadElement();
+        checkItemIfAdded()
+}
+loadData();
+
+let count = document.querySelector('.count')
+document.querySelector('.add').addEventListener("click" , () => {
+    count.textContent++
+})
+
+//! prevent remove button to work if counter == 1 
+let removeCount = document.querySelector('.remove')
+removeCount.addEventListener("click" , function(e){
+    if (count.textContent == 1) {
+        e.target.preventDefault()
+        removeCount.classList.add("preventButton")
+    }
+    count.textContent--
 })
 
 
-function handleShow(element) {
-    element.classList.toggle('show')
-}
-
-function handleHide(element) {
-    element.classList.remove('show')
-}
-
-function hideElement(ele) {
-    ele.style.display = "none"
-}
-
-addCount.onclick = function () {
-    count.textContent++
-    multiply.textContent = count.textContent
-    numberOfRequests.textContent = count.textContent
-    document.querySelector('.pricee').textContent = `$${multiply.textContent * 125 }.00`
-}
-
-removeCount.onclick = function () {
-    if (count.textContent == 1) {
-        return
-    }else {
-        count.textContent--
-        multiply.textContent = count.textContent
-        numberOfRequests.textContent = count.textContent
-        document.querySelector('.pricee').textContent = `$${multiply.textContent * 125 }.00`
-    }
-
-    if (numberOfRequests.textContent == 0) {
-        hideElement(numberOfRequests)
-        hideElement(btn)
-        hideElement(detailsPro)
-        flexEmpty.style.display = "flex"
-    }
-}
-
 //! when you click on this button send this product to shopping page
-
+let price = document.querySelector(".price")
+let addToCart = document.querySelector('.addToCaret')
 addToCart.addEventListener("click", function(e) {
-
     let element = {
         img: e.currentTarget.parentElement.parentElement.parentElement.children[0].children[0].children[0].src,
         id: e.currentTarget.parentElement.parentElement.parentElement.id,
         title: e.currentTarget.parentElement.parentElement.children[0].textContent,
-        price: e.currentTarget.parentElement.parentElement.children[2].textContent
+        //! how many product * product's price
+        price: e.currentTarget.parentElement.parentElement.children[2].textContent,
+        quantity: count.textContent
     }
     // console.log(element.price);
-    
     addFromHome.push(element)
     localStorage.setItem('addFromHome', JSON.stringify(addFromHome)) 
+    countFavProducts()
 })
 
-// close.onclick = function () {
-//     handleHide(cartPage)
-// }
-
-// cart.onclick = function () {
-//     handleShow(cartPage)
-//     if (count.textContent == 0 ) {
-//         flexEmpty.style.display = "flex"
-//     }
-// }
-
-let deleteIcon = document.querySelector('.delete')
-// deleteIcon.onclick = function () {
-//     flexEmpty.style.display = "flex"
-//     hideElement(btn)
-//     this.parentNode.remove()
-//     hideElement(numberOfRequests)
-// }    
 
 
-
-
-//? get data from api 
-
-function showDetail() {
+let fourProducts = null
+fetch('https://fakestoreapi.com/products?limit=5')
+    .then(res=> res.json())
+    .then(json => {
+        fourProducts = json
+        showDetail(fourProducts)
+    });
     
-    let productId = new URLSearchParams(window.location.search).get('id')
-    let thisProduct = products.filter(value => {
-        return value.id == productId
-    })[0]
+    
+function showSingleProduct() {
+    document.querySelector('.image ').src = products.image 
+    document.querySelector('.productName ').textContent = products.title 
+    document.querySelector('.productDisc ').textContent = products.description 
+    document.querySelector('.price').textContent = `$${products.price}` 
+    document.querySelector('.content').id = products.id
+}
 
-    if(!thisProduct) {
-        window.location.href = "/"
-    }
 
+
+//? get data from api to display 5 items below main product
+
+function showDetail(fourProducts) {
+    
     //! display rate this product
-
-    let rating = Math.round(thisProduct.rating.rate);  // Get the rounded rating
-    let stars = document.querySelectorAll('.star-rating span');  // Select all star elements
-
-    // Loop through the stars and add 'checked' class based on the rating
-    for (let i = 0; i < rating; i++) {
-        stars[i].classList.add("checked");
-    }
-
     
-    document.querySelector('.image ').src = thisProduct.image 
-    document.querySelector('.productName ').textContent = thisProduct.title 
-    document.querySelector('.productDisc ').textContent = thisProduct.description 
-    document.querySelector('.price').textContent = `$${thisProduct.price}` 
-    document.querySelector('.content').id = thisProduct.id
-
-
-    //! show 5 products only
-
-    let listProducts = document.querySelector('.listProducts')
-    
-    for(let i = 0; i < 5; i++) {
-    
-        let arrayContent4 = products.filter((value,index) => value.id != productId && index <= 5)
+    // let rating = Math.round(products.rating.rate);  // Get the rounded rating
+    // let stars = document.querySelectorAll('.star-rating span');  // Select all star elements
+    // for (let i = 0; i < rating; i++) {
+        // stars[i].classList.add("checked");
+        // }
+        
+        //! show 5 products only
+        
+        let filteredArray = fourProducts.filter((element) => element.id != productId)   
+        for(let i = 0; i < filteredArray.length; i++) {
         
         let productElement = document.createElement("div")
         productElement.classList.add("product")
-        productElement.id = arrayContent4[i].id
+        productElement.id = filteredArray[i].id
         productElement.innerHTML = `
-            <img class="fav" onclick="changeHeart(this)" src="https://cf-vectorizer-live.s3.amazonaws.com/vectorized/2k3ibr2cemKXwpYV9ZlXxHVr2Ab/2k3ik53QXe73xFDcEtT64b46vX9.svg">
-            <a class="item" href="singlePro.html?id=${arrayContent4[i].id}"> 
+            <span class="material-symbols-outlined fav">
+                favorite
+            </span>   
+            <a class="item" href="singlePro.html?id=${filteredArray[i].id}"> 
                 <div class="main-img">
-                    <img src="${arrayContent4[i].image}" alt="">
+                    <img  src="${filteredArray[i].image}" alt="">
                 </div>
-                <div class="description">${arrayContent4[i].title.split(" ").slice(0,6).join(" ")}</div>
+                <div class="description">${filteredArray[i].title.split(" ").slice(0,4).join(" ")}</div>
             </a>
             <div class="star-rating">
                 <span class="material-symbols-outlined ">
@@ -169,34 +123,92 @@ function showDetail() {
                 </span>
             </div>
             <div class="priceANDbutton">
-                <div class="priceOfPiece">$${arrayContent4[i].price}</div>
-                <button class="addButton" onclick="addProductToShop(this)">
+                <div class="priceOfPiece">$${filteredArray[i].price}</div>
+                <button class="addButton">
                 Add to cart
                 </button>
             </div>
         `
-        listProducts.appendChild(productElement)
+        document.querySelector('.listProducts').appendChild(productElement)
+
+        // console.log(filteredArray);
+        
     }
 
-    //! we rate the products 
+    //! add products for shopping page 
+
+    document.querySelectorAll(".addButton").forEach((product) => {
+        product.addEventListener("click", function addProductToShop(e) {
+            
+            let element = {
+                img:e.currentTarget.parentElement.parentElement.children[1].children[0].children[0].src,
+                id:e.currentTarget.parentElement.parentElement.id,
+                price:e.currentTarget.parentElement.parentElement.children[3].children[0].textContent,
+                title: e.currentTarget.parentElement.parentElement.children[1].children[1].textContent
+            }
+            addFromHome.push(element)
+            localStorage.setItem('addFromHome', JSON.stringify(addFromHome)) 
+            countFavProducts()
+        })
+    })
+
+    //! send elements to favorite page when I click on the favorite icon
+
+    document.querySelectorAll(".fav").forEach((fav) => {
+        fav.addEventListener("click", function addToFavorite(e) {
+            if (!e.currentTarget.classList.contains("clicked")) {
+                fav.classList.add("clicked")
+                let elem = {
+                    img:e.currentTarget.parentElement.children[1].children[0].children[0].src,
+                    id: e.currentTarget.parentElement.id,
+                    title: e.currentTarget.parentElement.children[1].children[1].textContent,
+                    price: e.currentTarget.parentElement.children[3].children[0].textContent,
+                    rating: e.currentTarget.parentElement.children[2].dataset.rating
+                }
+                favArrFromHome.push(elem)
+            }
+            localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome)) 
+            countFavProducts()
+        })
+    })
+
+    //! If the product exists, put (clicked) as a className  
+    let otherProducts = document.querySelectorAll(".product")
+    favArrFromHome.forEach((eleFav) => {
+        
+        otherProducts.forEach((elePro) => {
+            if (elePro.id == eleFav.id){
+                elePro.children[0].classList.add("clicked")                    
+            }
+        })
+    })
     
-    products.forEach((element, index) => {
+    addFromHome.forEach(element => {  
+        document.querySelectorAll(".addButton").forEach(btn => {
+            if (btn.parentElement.parentElement.id == element.id) {
+                btn.textContent = "added"
+            }
+        })
+    })
+
+    // ! we rate the products 
+
+    fourProducts.forEach((element, index) => {
         let rating = Math.round(element.rating.rate);  
-        let productElement = document.querySelectorAll(".product")[index];  
-        let stars = productElement.querySelectorAll(".star-rating span");
-    
+        let productElements = document.querySelectorAll(".product")[index];  
+        let stars = productElements.querySelectorAll(".star-rating span");
         if (stars.length > 0) {  
             for (let i = 0; i < rating; i++) {
-                if (stars[i]) {
-                    stars[i].classList.add("checked");
-                }
+                if (stars[i]) { stars[i].classList.add("checked")}
             }
         } 
     });
     
 }
 
-//! search bar
+
+
+//! search bar (don't work)
 
 function search() {
     let searchInput = document.getElementById('searchInput').value.toUpperCase()
@@ -211,48 +223,78 @@ function search() {
     }    
 }
 
-//! add product for shopping page 
+//! show and hide menu list
 
-function addProductToShop(product) {
+document.querySelector('.menu').addEventListener("click", () => {    
+    document.querySelector('.list').style.display = "block"
+})
 
-    let element = {
-        img:product.parentElement.parentElement.children[1].children[0].children[0].src,
-        id:product.parentElement.parentElement.id,
-        price:product.parentElement.parentElement.children[3].children[0].textContent,
-        title: product.parentElement.parentElement.children[1].children[1].textContent
-    }
-    addFromHome.push(element)
-    localStorage.setItem('addFromHome', JSON.stringify(addFromHome)) 
+document.querySelector('.list').addEventListener("click", () => {
+    document.querySelector('.list').style.display = "none"
+})
 
-}
+//! when add new product to fav => show like alert
 
-//! send element to fav page  
+//* send main product to favorite page when you click on the button
 
-function changeHeart(fav) {
-    if (fav.src = "https://cf-vectorizer-live.s3.amazonaws.com/vectorized/2k3ibr2cemKXwpYV9ZlXxHVr2Ab/2k3ik53QXe73xFDcEtT64b46vX9.svg") {
-        fav.src = "https://i.ibb.co/S5nQtT8/free-heart-icon-431-thumb-removebg-preview.png"
-        let elem = {
-            img:fav.parentElement.children[1].children[0].children[0].src,
-            id: fav.parentElement.id,
-            title: fav.parentElement.children[1].children[1].textContent,
-            price: fav.parentElement.children[3].children[0].textContent
+addProFromSinglePage.addEventListener("click", (e) => {
+    addProFromSinglePage.classList.toggle("clicked")
+
+    if (addProFromSinglePage.classList.contains("clicked")) {
+        let element = {
+            img:e.currentTarget.parentElement.parentElement.parentElement.parentElement
+            .children[0].children[0].children[0].src,
+            id: e.currentTarget.parentElement.parentElement.parentElement.parentElement.id,
+            title: e.currentTarget.parentElement.parentElement.parentElement.children[0].textContent,
+            price: e.currentTarget.parentElement.parentElement.parentElement.children[2].textContent
         }
-        console.log(elem.price);
-        
-        favArrFromHome.push(elem)
+        favArrFromHome.push(element)    
+        countFavProducts()
+    }else {
+        favArrFromHome = favArrFromHome.filter((ele) => {
+            return ele.id != e.currentTarget.parentElement.parentElement.parentElement.parentElement.id
+        })
     }
     localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome)) 
+})
+
+//! when increase or decrease => display number over cart
+countFavProducts()
+function countFavProducts() {
+    if (!favArrFromHome.length == 0) {
+        let countTheProductsFAv = document.querySelector(".countTheProducts")
+        countTheProductsFAv.textContent = `${favArrFromHome.length}`
+    }
+    
+    if (!addFromHome.length == 0) {
+        let countTheProductsShop = document.querySelector(".countTheProductsShop")
+        countTheProductsShop.textContent = `${addFromHome.length}`
+    }
 }
 
-// show and hide menu list
+//? if favorite array include current product
 
-function showList() {
-    document.querySelector('.list').style.display = "block"
+function loadElement() {
+    let content = document.querySelector('.content') 
+    favArrFromHome.forEach(element => {
+        if (element.id == content.id) {
+            addProFromSinglePage.classList.add("clicked")
+        }
+    });
 }
-function hideList() {
-    document.querySelector('.list').style.display = "none"
+
+// check if this product into the cart or not
+function checkItemIfAdded() {
+    let content  = document.querySelector(".content")
+    addFromHome.forEach(ele => {
+        if(ele.id == content.id) {
+            let btn = document.querySelector(".addToCaret")
+            btn.textContent = "Added" 
+        }    
+    })
 }
 
 
 
+}) // window.load  
 

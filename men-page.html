@@ -10,6 +10,7 @@
     :root{
         --primary:#ed9900;
         --primary-hover:#d88c00;
+        --main-color:#FBF8EF;
     }
     * {
         margin: 0;
@@ -18,7 +19,7 @@
 
     body {  
         font-family: Arial, Helvetica, sans-serif;
-        background-color: #eee;
+        background-color: var(--main-color);
     }
 
     .container {
@@ -68,8 +69,10 @@
 
 
     .products{
-        h2 {
+        .header-title {
             margin-bottom: 20px;
+            font-size: 30px;
+            font-weight: 500;
         }
     }
     .addButton {
@@ -229,12 +232,13 @@
         gap: 10px;
         
     }
-    .favorite-page:hover::after {
+    .heart:hover::after {
         content: "favorite page";
         display: block;
         position: absolute;
-        bottom: -25px;
-        left: -15px;
+        font-family: Arial, Helvetica, sans-serif !important;
+        bottom: -24px;
+        left: -30px;
         min-width: 73px;
         padding: 5px;
         font-size: 12px;
@@ -242,9 +246,48 @@
         background-color: black;
     }   
 
+    .countTheProducts {
+        position: absolute;
+        width: 15px;
+        border-radius: 50%;
+        color: #000;
+        text-align: center;
+        background-color: var(--primary);
+        bottom: 18px;
+        left: 10px;
+        font-size: 14px;
+    }
+    
+    .favorite-page {
+        position: relative;
+    }
+
+    /* over shop icon*/
+
+    .shopping {
+        position: relative;
+    }
+
+    .countTheProductsShop {
+        position: absolute;
+        width: 15px;
+        border-radius: 50%;
+        color: #000;
+        text-align: center;
+        background-color: var(--primary);
+        bottom: 18px;
+        left: 10px;
+        font-size: 14px;
+        z-index: 1;
+    }
+
     .heart {
         color: gray;
         cursor: pointer;
+    }
+    
+    .heart:hover {
+        color: #000;
     }
 
     .fav {
@@ -256,6 +299,7 @@
         z-index: 1;
         padding: 10px;
     }
+
 
     .priceANDbutton{
         display: flex;
@@ -359,20 +403,26 @@
             </div>        
             <div class="cart" >
                 <a  class="favorite-page" href="fav-page.html">
+                    <div class="countTheProducts"></div>
                     <span class="material-symbols-outlined heart">
                         favorite
                     </span>
                 </a>
-                <a class="shopping-cart" href="shopping-page.html">
-                    <span class="material-symbols-outlined style-cart">
-                        shopping_cart
-                    </span>
-                </a>
+
+                <div class="shopping">
+                    <a class="shopping-cart" href="shopping-page.html">
+                        <div class="countTheProductsShop"></div>
+                        <span class="material-symbols-outlined style-cart">
+                            shopping_cart
+                        </span>
+                    </a>
+                </div>
+
             </div>
         </div>
 
         <div class="products">
-            <h2>Men products</h2>
+            <div class="header-title">Men's products</div>
             <div class="all-product"></div>
         </div>
     </div>
@@ -487,6 +537,7 @@
                         favArrFromHome.push(elem)
                     }
                     localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome)) 
+                    countFavProducts()
                 })  
         
             })
@@ -500,16 +551,16 @@
         // Add product for shopping page  
 
         function addProductToCart(item) {
-                let element = {
-                    img: item.parentElement.parentElement.children[1].children[0].children[0].src,
-                    id: item.parentElement.parentElement.id,
-                    title: item.parentElement.parentElement.children[1].children[1].textContent,
-                    price: item.parentElement.children[0].textContent,
-                }
-                addFromHome.push(element)
+            let element = {
+                img: item.parentElement.parentElement.children[1].children[0].children[0].src,
+                id: item.parentElement.parentElement.id,
+                title: item.parentElement.parentElement.children[1].children[1].textContent,
+                price: item.parentElement.children[0].textContent,
+            }
+            addFromHome.push(element)
             localStorage.setItem('addFromHome', JSON.stringify(addFromHome)) 
+            countFavProducts()
         }
-
 
         // menu list 
 
@@ -526,6 +577,18 @@
                 link.classList.add('active')
             }
         })
+
+        //! when add new product to fav => show like alert
+        countFavProducts()
+        function countFavProducts() {
+            if (!favArrFromHome.length == 0 &&!addFromHome.length == 0 ) {
+                let countTheProductsFAv = document.querySelector(".countTheProducts")
+                let countTheProductsShop = document.querySelector(".countTheProductsShop")
+                countTheProductsFAv.textContent = `${favArrFromHome.length}`
+                countTheProductsShop.textContent = `${addFromHome.length}`
+            }
+        }
+        
         
     </script>
 </body>

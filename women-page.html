@@ -10,6 +10,7 @@
     :root{
         --primary:#ed9900;
         --primary-hover:#d88c00;
+        --main-color:#FBF8EF;
     }
     * {
         margin: 0;
@@ -17,7 +18,7 @@
     }
 
     body {  
-        background-color: #eee;
+        background-color: var(--main-color);
         font-family: Arial, Helvetica, sans-serif;
     }
 
@@ -70,8 +71,10 @@
        cursor: pointer;
     } 
     .products{
-        h2 {
+        .header-title {
             margin-bottom: 20px;
+            font-size: 30px;
+            font-weight: 500;
         }
     }
     .addButton {
@@ -229,18 +232,64 @@
         gap: 10px;
     }
 
-    .favorite-page:hover::after {
+    .heart:hover::after {
         content: "favorite page";
         display: block;
         position: absolute;
-        bottom: -25px;
-        left: -15px;
+        font-family: Arial, Helvetica, sans-serif !important;
+        bottom: -24px;
+        left: -30px;
         min-width: 73px;
         padding: 5px;
         font-size: 12px;
         color: #fff;
         background-color: black;
+    }   
+
+    .countTheProducts {
+        position: absolute;
+        width: 15px;
+        border-radius: 50%;
+        color: #000;
+        text-align: center;
+        background-color: var(--primary);
+        bottom: 18px;
+        left: 10px;
+        font-size: 14px;
     }
+    
+    .favorite-page {
+        position: relative;
+    }
+
+    /* over shop icon*/
+
+    .shopping {
+        position: relative;
+    }
+
+    .countTheProductsShop {
+        position: absolute;
+        width: 15px;
+        border-radius: 50%;
+        color: #000;
+        text-align: center;
+        background-color: var(--primary);
+        bottom: 18px;
+        left: 10px;
+        font-size: 14px;
+        z-index: 1;
+    }
+
+    .heart {
+        color: gray;
+        cursor: pointer;
+    }
+    
+    .heart:hover {
+        color: #000;
+    }
+
     .active{
         color: black !important;
     }
@@ -351,34 +400,35 @@
                 <!--! favorite page -->
                 
                 <a  class="favorite-page" href="fav-page.html">
+                    <div class="countTheProducts"></div>
                     <span class="material-symbols-outlined heart">
                         favorite
                     </span>
                 </a>
 
                 <!--! shopping page -->
-                
-                <a class="shopping-cart" href="shopping-page.html">
-                    <span class="material-symbols-outlined style-cart">
-                        shopping_cart
-                    </span>
-                </a>
+                <div class="shopping">
+                    <a class="shopping-cart" href="shopping-page.html">
+                        <div class="countTheProductsShop"></div>
+                        <span class="material-symbols-outlined style-cart">
+                            shopping_cart
+                        </span>
+                    </a>
+                </div>
+
             </div>
         </div>
 
         <div class="products">
-            <h2>Women products</h2>
+            <div class="header-title">Women's products</div>
             <div class="all-product"></div>
         </div>
     </div>
-
-
 
     <script >
         let favArrFromHome =  JSON.parse(localStorage.getItem('favArrFromHome')) || []
         let addFromHome =  JSON.parse(localStorage.getItem('addFromHome')) || []
         let listProduct = []
-        //let carts = []
         let allProduct = document.querySelector(".all-product")
         
         fetch("https://fakestoreapi.com/products")
@@ -483,9 +533,9 @@
                         }
                         favArrFromHome.push(elem)
                     }
-                    localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome)) 
+                    localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome))
+                    countFavProducts() 
                 })  
-        
             })
             
             let btn = document.querySelectorAll('.addButton')
@@ -505,6 +555,8 @@
                 }
                 addFromHome.push(element)
             localStorage.setItem('addFromHome', JSON.stringify(addFromHome)) 
+            //console.log("hii")
+            countFavProducts()
         }
         
 
@@ -522,6 +574,19 @@
                 link.classList.add('active')
             }
         })
+
+        //! when add new product to fav => show like alert
+        countFavProducts()
+        function countFavProducts() {
+            if (!favArrFromHome.length == 0 && !addFromHome.length == 0) {
+                let countTheProductsFAv = document.querySelector(".countTheProducts")
+                countTheProductsFAv.textContent = `${favArrFromHome.length}`
+                
+                let countTheProductsShop = document.querySelector(".countTheProductsShop")
+                countTheProductsShop.textContent = `${addFromHome.length}`
+                console.log(countTheProductsShop)
+            }
+        }
     </script>
 </body>
 </html>

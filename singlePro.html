@@ -15,7 +15,7 @@
                     <!--! menu -->
 
         <div class="list">
-            <span onclick="hideList()" class="material-symbols-outlined close">
+            <span class="material-symbols-outlined close">
                 close
             </span>
             <a href="home.html">Home</a>
@@ -29,15 +29,15 @@
         <!-- <div class="parent-nav"> -->
         <div class="nav-bar">
             <div class="left-side">
-                <div class="menu" >
-                    <span onclick="showList()" class="material-symbols-outlined">
+                <div class="menu">
+                    <span class="material-symbols-outlined">
                         menu
                     </span>
                 </div>
-                <a href="home.html">Home</a>
-                <a href="men-page.html">Men</a>
-                <a href="women-page.html">Women</a>
-                <a href="electronics-page.html">Electronics</a>
+                    <a href="home.html">Home</a>
+                    <a href="men-page.html">Men</a>
+                    <a href="women-page.html">Women</a>
+                    <a href="electronics-page.html">Electronics</a>
             </div>
             <div class="search-bar">
                 <input type="text" placeholder="search...." onkeyup="search()" id="searchInput">
@@ -47,6 +47,7 @@
             </div>
             <div class="right-side">
                 <a class="favorite-page" href="fav-page.html">
+                    <div class="countTheProducts"></div>
                     <span class="material-symbols-outlined  header-fav">
                         favorite
                     </span>
@@ -56,11 +57,11 @@
                 
                 <div class="cart">
                     <a href="shopping-page.html">
+                        <div class="countTheProductsShop"></div>
                         <span class="material-symbols-outlined cart-hover">
                             shopping_cart
                         </span>
                     </a>
-                    <span class="number-of-requests"></span>
                 </div>
 
             </div>
@@ -113,15 +114,19 @@
                             </span>
                             Add to cart
                         </button>
+                        <div class="fav-button">
+                            <span class="material-symbols-outlined addProFromSinglePage">
+                                favorite
+                            </span>
+                        </div>
                     </div>
             </div>
         </div>
+        
         <h1 class="other-products">other products</h1>
         <div class="listProducts"></div>
     </div>
 
-    <script src="singlePro.js">
-
-    </script>
+    <script src="singlePro.js"></script>
 </body>
 </html>
