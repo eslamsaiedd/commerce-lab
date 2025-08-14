@@ -73,12 +73,24 @@ body {
     display: none;
     flex-direction: column;
     justify-content: center;
-    padding: 10px 0px 10px 0px; 
+    padding: 10px;
     gap: 25px;
+    background-color: white;
+    margin: 10px 0px 10px 0px;
+    border-radius: 10px;
+    div{
+        display: flex;
+        align-items: center; 
+        gap: 10px;
+    }
     a {
         text-decoration: none;
         color: #000;
     }
+}
+.information div:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 /*? menu */
@@ -98,71 +110,7 @@ body {
     right: 0px;
     padding: 20px;
 }
-.header-shop-cart {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    p {
-        font-size: 25px;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-}
 
-.listCart {
-    overflow-y: scroll;
-    height: 100%;
-}
-.listCart::-webkit-scrollbar {
-    width: 0px;
-}
-
-.item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
-    img {
-        width: 50px;
-        height: 60px;
-        border-radius: 5px;
-    }
-}
-.style {
-    border: 1px solid black;
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    width: 30px;
-    height: 25px;
-}
-.remove-border-right {
-    border-color: black transparent black black ;
-    cursor: pointer;
-}
-.remove-border-left {
-    border-color: black black black transparent;
-    cursor: pointer;
-}
-.edit-shopping-cart {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.style-quantity {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.closeAndPrice {
-    display: flex;
-    flex-direction: column-reverse;
-    align-items: center;
-    gap: 15px;
-    .close-item {
-        font-size: 20px !important;
-        cursor: pointer;
-    }
-}
 .star-rating {
     display: flex;
     .material-symbols-outlined {
@@ -229,10 +177,10 @@ body {
     background-color: white;
     position: absolute;
     gap: 10px;
-    top: 24px;
+    top: 22px;
     left: 0;
-    width: 120px;
     padding: 10px;
+    border-radius: 10px;
     a{
         text-decoration: none;
         color: var(--black);
@@ -241,6 +189,8 @@ body {
 
 .categories:hover .individualCategorie {
     display: flex;
+    width: 130px;
+
 }
 
 .individualCategorie a:hover {
@@ -280,16 +230,12 @@ body {
     position: relative;
     gap: 10px;
     margin-right: 10px;
+    a {
+        text-decoration: none;
+        color: #000;
+    }
 }
 
-.style-cart-icon {
-    color: var(--black);
-    position: relative;
-}
-.style-cart-icon:hover{
-    cursor: pointer;
-    color: black;
-}
 .style-cart-icon:hover::after {
     content: "cart page";
     display: block;
@@ -307,18 +253,14 @@ body {
     content: "";
     color: var(--black);
     cursor: pointer;
-    display: block;
+    /* display: block; */
     position: absolute;
     background-color: black;
     top: -3px;
-    left: -8px;
+    left: -5px;
     width: 1.5px;
     height: 30px;
 }
-
-/* .header-fav:hover {
-    color: var(--black);
-} */
 
 .countTheProducts {
     position: absolute;
@@ -337,16 +279,6 @@ body {
     position: relative;
     color: var(--black);
 }
-/* .favorite-page::after {
-    content: "";
-    display: block;
-    position: absolute;
-    background-color: black;
-    top: -3px;
-    left: -8px;
-    width: 1.5px;
-    height: 30px;
-} */
 
 /*? over shop icon*/
 
@@ -367,7 +299,6 @@ body {
     font-size: 14px;
     z-index: 1;
 }
-
 
 .favorite-page:hover:after {
     content: "favorite page";
@@ -695,6 +626,9 @@ body {
 }
 
 @media(max-width: 950px) {
+    /* .information {
+        display: none;
+    } */
     .menu {
         display: block;
         margin-left: 10px;

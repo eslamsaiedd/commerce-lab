@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../product-list/home.css">
+    <link rel="stylesheet" href="./home.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -11,50 +11,64 @@
 </head>
 <body >
 
-    <!-- shopping cart  -->
-
-    <!-- <div class="shopping-cart">
-        <div class="header-shop-cart">
-            <p>shopping cart</p>
-            <span class="material-symbols-outlined close" onclick="hideCart()">
-                close
-            </span>
-        </div>
-        <div class="listCart">
-        </div>
-    </div> -->
 
     <!-- container  -->
     
     <div class="container">
         
-
         <div class="list-menu">
-            <span onclick="hideList()" class="material-symbols-outlined close-list">
+            <span class="material-symbols-outlined close-list">
                 close
             </span>
-            <a href="product.html">Home</a>
-            <a href="men-page.html">Men</a>
-            <a href="women-page.html">Women</a>
-            <a href="electronics-page.html">Electronics</a>
+            <div class="categoriesIntoMenu">
+                <a href="index.html">Home</a>
+                <a href="men-page.html">Men</a>
+                <a href="women-page.html">Women</a>
+                <a href="electronics-page.html">Electronics</a>
+            </div>
+            <div class="information">
+                <div class="myAccount">
+                    <a href="">
+                        <span class="material-symbols-outlined">
+                            person
+                        </span>
+                    </a>
+                    Profile
+                </div>
+                <div class="favoritePageIntoMenu">
+                    <a href="fav-page.html">
+                        <span class="material-symbols-outlined ">
+                            favorite
+                        </span>
+                    </a>
+                    Favorite page
+                </div>
+                
+            </div>
+
         </div>
 
 
         <!-- header  -->
         
-        <div class="header">
+        <header class="header">
 
             <div class="menu">
-                <span onclick="showList()" class="material-symbols-outlined">
+                <span class="material-symbols-outlined">
                     menu
                 </span>
             </div>
-
-            <div class="navBar">
-                <a href="home.html">Home</a>
-                <a href="men-page.html">Men</a>
-                <a href="women-page.html">Women</a>
-                <a href="electronics-page.html">Electronics</a>
+            <div class="categories">
+                categories
+                <span class="material-symbols-outlined">
+                    arrow_drop_down
+                </span>
+                <div class="individualCategorie">
+                    <a href="index.html">Home</a>
+                    <a href="men-page.html">Men</a>
+                    <a href="women-page.html">Women</a>
+                    <a href="electronics-page.html">Electronics</a>
+                </div>
             </div>
 
             <div class="search-bar">
@@ -70,12 +84,21 @@
                     <!--? custom input checkbox for change color page -->
                     <input type="checkbox" id="custom-input">
                 </div>
-
-                <a class="favorite-page" href="fav-page.html">
-                    <span class="material-symbols-outlined  header-fav">
-                        favorite
-                    </span>
-                </a>
+                <div class="myAccount">
+                    <a href="">
+                        <span class="material-symbols-outlined">
+                            person
+                        </span>
+                    </a>
+                </div>
+                <div class="favorite-page ">
+                    <a class="" href="fav-page.html">
+                        <span class="material-symbols-outlined">
+                            favorite
+                        </span>
+                    </a>
+                    <div class="header-fav"></div>
+                </div>
 
                 <div class="shopping">
                     <a href="shopping-page.html">
@@ -86,7 +109,7 @@
                 </div>
 
             </div>
-        </div>
+        </header>
 
             <!-- post new collection -->
 

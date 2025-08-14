@@ -228,7 +228,7 @@ document.querySelector('.menu').addEventListener("click", () => {
     document.querySelector('.information').style.display = "flex"
 })
 
-document.querySelector('.closeList').addEventListener("click", () => {
+document.querySelector('.close-list').addEventListener("click", () => {
     document.querySelector('.list-menu').style.display = "none"
 })
 
@@ -253,7 +253,7 @@ lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
 function handleRoutes() {
     const route = window.location.pathname   // Default to '#/' if hash is empty
     
-    const validRoutes = ['/','/product-list/home.html','/product-list/mne-page.html','/product-list/women-page.html','/product-list/electronics-page.html','/product-list/fav-page.html'];  // Add your valid routes here
+    const validRoutes = ['/','/product-list/index.html','/product-list/mne-page.html','/product-list/women-page.html','/product-list/electronics-page.html','/product-list/fav-page.html'];  // Add your valid routes here
 
     if (!validRoutes.includes(route)) {
         // If the route is not valid, redirect to the 404 page
