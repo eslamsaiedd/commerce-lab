@@ -222,10 +222,8 @@ function changeHeart() {
 
     
 //! menu list 
-
 document.querySelector('.menu').addEventListener("click", () => {    
     document.querySelector('.list-menu').style.display = "flex"
-    document.querySelector('.information').style.display = "flex"
 })
 
 document.querySelector('.close-list').addEventListener("click", () => {
