@@ -59,6 +59,7 @@ function rating() {
         
         if (stars.length > 0) {  // Check if stars exist
             for (let i = 0; i < rating; i++) {
+                console.log("sended");
                 if (stars[i]) {
                     stars[i].classList.add("checked");
                 }else {

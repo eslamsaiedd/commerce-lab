@@ -108,7 +108,11 @@
 
             </div>
         </header>
-
+        <div class="routes">
+            <a class="pervious-route" href="./index.html">Home</a>
+            /
+            <a class="current-route" href="">Men</a>
+        </div>
         <div class="products">
             <div class="header-title">Men's products</div>
             <div class="all-product"></div>
@@ -116,175 +120,6 @@
     </div>
 
 
-    <script >
-        let favArrFromHome =  JSON.parse(localStorage.getItem('favArrFromHome')) || []
-        let addFromHome =  JSON.parse(localStorage.getItem('addFromHome')) || []
-        let listProduct = []
-        let allProduct = document.querySelector(".all-product")
-        
-        fetch("https://fakestoreapi.com/products")
-        .then(response => response.json())
-        .then(data => {
-        listProduct = data    
-        listProduct.filter((ele, index)=> {
-            if (ele.category == "men's clothing") {
-                allProduct.innerHTML += 
-                `
-                <div class="product" id="${++index}">
-                    <img class="fav" src="https://cf-vectorizer-live.s3.amazonaws.com/vectorized/2k3ibr2cemKXwpYV9ZlXxHVr2Ab/2k3ik53QXe73xFDcEtT64b46vX9.svg">
-                    <a class="newProduct" href="singlePro.html?id=${ele.id}">
-                        <div class="main-image">
-                            <img class="image" src="${ele.image}" alt="">
-                        </div>
-                        <div class="description">${ele.title.split(' ').slice(0,6).join(" ")}</div>
-                    </a>
-                   <div data-rating="${ele.rating.rate}" class="star-rating">
-                        <span class="material-symbols-outlined fixedFontSize">
-                            star
-                        </span>
-                        <span class="material-symbols-outlined fixedFontSize">
-                            star
-                        </span>
-                        <span class="material-symbols-outlined fixedFontSize ">
-                            star
-                        </span>
-                        <span class="material-symbols-outlined fixedFontSize">
-                            star
-                        </span>
-                        <span class="material-symbols-outlined fixedFontSize">
-                            star
-                        </span>
-                    </div>
-                    <div class="priceANDbutton">
-                        <div class="priceOfPiece">$${ele.price}</div>
-                        <button class="addButton">
-                            Add to cart
-                        </button>
-                    </div>
-                </div>    
-                `
-            }
-
-                // display rate on products 
-
-            })
-            function rating() {
-
-                listProduct.forEach((element, index) => {
-                    
-                    let rating = Math.round(element.rating.rate);  // Round the rating for each product
-                    let productElement = document.querySelectorAll(".product")[index];  // Select the specific product container
-                    let stars = productElement.querySelectorAll(".star-rating span");  // Get stars for that specific product
-                
-                    if (stars.length > 0) {  // Check if stars exist
-                        for (let i = 0; i < rating; i++) {
-                            if (stars[i]) {
-                                stars[i].classList.add("checked");
-                            }else {
-                                stars[i].classList.add("changeColorMode");   
-                            }
-                        }
-                    } 
-                });
-            }
-            rating()
-        
-    })  
-
-    let product = document.querySelectorAll(".product")
-    
-        // search bar
-        
-        function search() {
-            let searchInput = document.getElementById('searchInput').value.toUpperCase()
-            let product = document.querySelectorAll(".product")
-            let productName = document.getElementsByTagName("h2")
-        
-            for (let i = 0; i < productName.length; i++) {
-                if (productName[i].innerHTML.toUpperCase().indexOf(searchInput) >= 0) {
-                    product[i].style.display = ""
-                }else {
-                    product[i].style.display = "none"
-                }    
-            }    
-        }
-
-        setTimeout(() => {
-            let favs = document.querySelectorAll(".fav")
-            favs.forEach((fav) => {
-                fav.addEventListener("click", function addToFavorite(e) {
-                    if (e.currentTarget.src = "https://cf-vectorizer-live.s3.amazonaws.com/vectorized/2k3ibr2cemKXwpYV9ZlXxHVr2Ab/2k3ik53QXe73xFDcEtT64b46vX9.svg") {
-                        e.currentTarget.src = "https://i.ibb.co/S5nQtT8/free-heart-icon-431-thumb-removebg-preview.png"
-                        let elem = {
-                            img:e.currentTarget.parentElement.children[1].children[0].children[0].src,
-                            id: e.currentTarget.parentElement.id,
-                            title: e.currentTarget.parentElement.children[1].children[1].textContent,
-                            price: e.currentTarget.parentElement.children[3].children[0].textContent,
-                            rating: e.currentTarget.parentElement.parentElement.children[2].dataset.rating
-                        }
-                        favArrFromHome.push(elem)
-                    }
-                    localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome)) 
-                    countFavProducts()
-                })  
-        
-            })
-            
-            let btn = document.querySelectorAll('.addButton')
-            btn.forEach((item)=> {
-                item.addEventListener('click' ,  function() {addProductToCart(item)})
-            })
-        }, 1000)
-
-        // Add product for shopping page  
-
-        function addProductToCart(item) {
-            let element = {
-                img: item.parentElement.parentElement.children[1].children[0].children[0].src,
-                id: item.parentElement.parentElement.id,
-                title: item.parentElement.parentElement.children[1].children[1].textContent,
-                price: item.parentElement.children[0].textContent,
-            }
-            addFromHome.push(element)
-            localStorage.setItem('addFromHome', JSON.stringify(addFromHome)) 
-            countFavProducts()
-        }
-
-        //! menu list 
-        document.querySelector('.menu').addEventListener("click", () => {    
-            document.querySelector('.list-menu').style.display = "flex"
-        })
-        document.querySelector('.close-list').addEventListener("click", () => {
-            document.querySelector('.list-menu').style.display = "none"
-        })
-
-        //! when add new product to fav => show like alert
-        countFavProducts()
-        function countFavProducts() {
-            if (!favArrFromHome.length == 0 &&!addFromHome.length == 0 ) {
-                let countTheProductsFAv = document.querySelector(".countTheProducts")
-                let countTheProductsShop = document.querySelector(".countTheProductsShop")
-                console.log(countTheProductsFAv)
-                countTheProductsFAv.textContent = `${favArrFromHome.length}`
-                countTheProductsShop.textContent = `${addFromHome.length}`
-
-            }
-        }
-        
-        //! make the header fixed => (hide on scroll, show on scroll up)
-        let lastScrollTop = 0;
-        const header = document.querySelector("header");
-
-        window.addEventListener("scroll", function() {
-        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-
-        if (currentScroll > lastScrollTop) {
-            header.style.top = "-80px"; 
-        } else {
-            header.style.top = "20px";
-        }
-        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
-        });
-    </script>
+    <script src="men-page.js" type="module"></script>
 </body>
 </html>

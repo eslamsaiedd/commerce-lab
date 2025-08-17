@@ -109,6 +109,12 @@
             </div>
         </header>
 
+        <div class="routes">
+            <a class="pervious-route" href="./index.html">Home</a>
+            /
+            <a class="current-route" href="">Electronics</a>
+        </div>
+
         <div class="products">
             <div class="header-title">Electronic products</div>
             <div class="all-product"></div>
@@ -116,8 +122,8 @@
     </div>
 
 
-
-    <script >
+    <script src="./electronics-page.js"></script>
+    <!-- <script >
         let favArrFromHome =  JSON.parse(localStorage.getItem('favArrFromHome')) || []
         let addFromHome =  JSON.parse(localStorage.getItem('addFromHome')) || []
         let listProduct = []
@@ -139,7 +145,7 @@
                         <div class="main-image">
                             <img class="image" src="${ele.image}" alt="">
                         </div>
-                        <div class="description">${ele.title.split(' ').slice(0,6).join(" ")}</div>
+                        <div class="description">${ele.title.split(' ').slice(0,3).join(" ")}</div>
                     </a>
                     <div class="star-rating">
                         <span class="material-symbols-outlined fixedFontSize">
@@ -286,6 +292,6 @@
         }
         lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
         });
-    </script>
+    </script> -->
 </body>
 </html>

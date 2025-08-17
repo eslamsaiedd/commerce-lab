@@ -1,0 +1,213 @@
+
+let favArrFromHome =  JSON.parse(localStorage.getItem('favArrFromHome')) || []
+let addFromHome =  JSON.parse(localStorage.getItem('addFromHome')) || []
+let listProduct = []
+let allProduct = document.querySelector(".all-product")
+
+fetch("https://fakestoreapi.com/products")
+.then(response => response.json())
+.then(data => {
+    listProduct = data    
+listProduct.filter((ele, index)=> {
+    if (ele.category == "men's clothing") {
+        allProduct.innerHTML += 
+        `
+        <div class="product" id="${++index}">
+            <span class="material-symbols-outlined fav">
+                favorite
+            </span>   
+            <a class="newProduct" href="singlePro.html?id=${ele.id}">
+                <div class="main-image">
+                    <img class="image" src="${ele.image}" alt="">
+                </div>
+                <div class="description">${ele.title.split(' ').slice(0,3).join(" ")}</div>
+            </a>
+            <div data-rating="${ele.rating.rate}" class="star-rating">
+                <span class="material-symbols-outlined fixedFontSize">
+                    star
+                </span>
+                <span class="material-symbols-outlined fixedFontSize">
+                    star
+                </span>
+                <span class="material-symbols-outlined fixedFontSize ">
+                    star
+                </span>
+                <span class="material-symbols-outlined fixedFontSize">
+                    star
+                </span>
+                <span class="material-symbols-outlined fixedFontSize">
+                    star
+                </span>
+            </div>
+            <div class="priceANDbutton">
+                <div class="priceOfPiece">$${ele.price}</div>
+                <button class="addButton">
+                    Add to cart
+                </button>
+            </div>
+        </div>    
+        `
+    }
+
+        // display rate on products 
+
+    })
+
+    function rating() {
+
+        listProduct.forEach((element, index) => {
+            
+            let rating = Math.round(element.rating.rate);  // Round the rating for each product
+            let productElement = document.querySelectorAll(".product")[index];  // Select the specific product container
+            let stars = productElement.querySelectorAll(".star-rating span");  // Get stars for that specific product
+        
+            if (stars.length > 0) {  // Check if stars exist
+                for (let i = 0; i < rating; i++) {
+                    if (stars[i]) {
+                        stars[i].classList.add("checked");
+                    }else {
+                        stars[i].classList.add("changeColorMode");   
+                    }
+                }
+            } 
+        });
+    }
+    rating()
+
+})  
+
+// search bar
+
+function search() {
+    let searchInput = document.getElementById('searchInput').value.toUpperCase()
+    let product = document.querySelectorAll(".product")
+    let productName = document.getElementsByTagName("h2")
+
+    for (let i = 0; i < productName.length; i++) {
+        if (productName[i].innerHTML.toUpperCase().indexOf(searchInput) >= 0) {
+            product[i].style.display = ""
+        }else {
+            product[i].style.display = "none"
+        }    
+    }    
+}
+
+
+async function init() {
+await fetch("https://fakestoreapi.com/products")
+    .then(response => response.json())
+    .then(data => {
+        listProduct = data
+        changeHeart()
+        loadFavProduct()
+    addProductToCart()
+
+    })
+}
+init()
+
+function changeHeart() {
+
+    let favs = document.querySelectorAll(".fav")
+    favs.forEach((fav) => {
+        fav.addEventListener("click", function addToFavorite(e) {
+            if (!e.currentTarget.classList.contains("clicked")) {
+                fav.classList.add("clicked")
+                let elem = {
+                    img:e.currentTarget.parentElement.children[1].children[0].children[0].src,
+                    id: e.currentTarget.parentElement.id,
+                    title: e.currentTarget.parentElement.children[1].children[1].textContent,
+                    price: e.currentTarget.parentElement.children[3].children[0].textContent,
+                    rating: e.currentTarget.parentElement.children[2].dataset.rating
+                }
+                console.log(elem.rating);
+                
+                favArrFromHome.push(elem)
+            }
+            localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome)) 
+            countFavProducts()
+        })  
+    })
+}
+
+function loadFavProduct() {
+
+    favArrFromHome.forEach((element) =>{
+        document.querySelectorAll(".product").forEach((product) =>{
+            if (element.id == product.id) {
+                product.children[0].classList.add("clicked")
+        }
+        })
+    })
+}
+
+// Add product for shopping page  
+addProductToCart()
+function addProductToCart() {
+    let btn = document.querySelectorAll('.addButton')
+    btn.forEach((e) => {
+        e.addEventListener("click", () => {
+
+            let element = {
+                img: e.parentElement.parentElement.children[1].children[0].children[0].src,
+                id: e.parentElement.parentElement.id,
+                title: e.parentElement.parentElement.children[1].children[1].textContent,
+                price: e.parentElement.children[0].textContent,
+            }
+            addFromHome.push(element)
+            localStorage.setItem('addFromHome', JSON.stringify(addFromHome)) 
+            countFavProducts()
+            addedItem()
+        })
+    })
+}
+
+function addedItem(){
+    let addButton = document.querySelectorAll(".addButton")
+    let get_id = JSON.parse(localStorage.getItem('addFromHome'))
+    addButton.forEach(btn => {
+            get_id.forEach(ele => {
+            if (ele.id == btn.parentElement.parentElement.id) {
+                btn.textContent ="Added"
+            }
+        })
+    })
+}
+
+//! menu list 
+document.querySelector('.menu').addEventListener("click", () => {    
+    document.querySelector('.list-menu').style.display = "flex"
+})
+document.querySelector('.close-list').addEventListener("click", () => {
+    document.querySelector('.list-menu').style.display = "none"
+})
+
+//! when add new product to fav => show like alert
+countFavProducts()
+function countFavProducts() {
+    if (!favArrFromHome.length == 0 &&!addFromHome.length == 0 ) {
+        let countTheProductsFAv = document.querySelector(".countTheProducts")
+        let countTheProductsShop = document.querySelector(".countTheProductsShop")
+        countTheProductsFAv.textContent = `${favArrFromHome.length}`
+        countTheProductsShop.textContent = `${addFromHome.length}`
+
+    }
+}
+
+//! make the header fixed => (hide on scroll, show on scroll up)
+let lastScrollTop = 0;
+const header = document.querySelector("header");
+
+window.addEventListener("scroll", function() {
+    let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+    if (currentScroll > lastScrollTop) {
+        header.style.top = "-80px"; 
+    } else {
+        header.style.top = "20px";
+    }
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
+});
+
+// current route and pervious route
+document.querySelector(".current-route").href = window.location 

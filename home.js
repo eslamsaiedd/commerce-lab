@@ -116,9 +116,6 @@ function addedItem(){
 //     }    
 // }
 
-//? shopping cart
-
-let listCart = document.querySelector('.listCart')
 
 //! i get the id by click on button (add to cart)
 let product_id
@@ -186,7 +183,6 @@ async function init() {
         changeHeart()
         loadFavProduct()
     })
-    
 }
 init()
   
@@ -209,13 +205,23 @@ function changeHeart() {
                     price: e.currentTarget.parentElement.children[3].children[0].textContent,
                     rating: e.currentTarget.parentElement.children[2].dataset.rating
                 }
-                
-                console.log(elem.rating);
                 favArrFromHome.push(elem)
             }
             localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome)) 
             countFavProducts()
             displayToast()
+        })
+    })
+}
+
+//! If the product exists in favorite array , add => (clicked) 
+function loadFavProduct() {
+    
+    favArrFromHome.forEach((element) =>{
+        document.querySelectorAll(".product").forEach((product) =>{
+            if (element.id == product.id) {
+                product.children[0].classList.add("clicked")
+           }
         })
     })
 }
@@ -304,6 +310,7 @@ customInput.addEventListener("click", function switchDarkMode() {
 countFavProducts()
 function countFavProducts() {
     if (!favArrFromHome.length == 0) {
+        // countTheProductsFAv.style.display = "block"
         let countTheProductsFAv = document.querySelector(".countTheProducts")
         countTheProductsFAv.textContent = `${favArrFromHome.length}`
     }
@@ -326,17 +333,6 @@ function displayToast() {
     },4000)
 }
 
-//! If the product exists in favorite array , add => (clicked) 
-function loadFavProduct() {
-    
-    favArrFromHome.forEach((element) =>{
-        document.querySelectorAll(".product").forEach((product) =>{
-            if (element.id == product.id) {
-                product.children[0].classList.add("clicked")
-           }
-        })
-    })
-}
 
 
 
