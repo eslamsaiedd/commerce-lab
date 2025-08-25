@@ -48,7 +48,7 @@ body {
             border-radius: 5px;
         }
     }
-    a:hover {
+    .categoriesIntoMenu a:hover {
         color: black;
         background-color: #c9c9c9;
         text-decoration: underline;
@@ -82,12 +82,15 @@ body {
     a {
         text-decoration: none;
         color: #000;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 }
-.information div:hover {
+/* .information div:hover {
     text-decoration: underline;
     cursor: pointer;
-}
+} */
 
 
 .products{
@@ -241,9 +244,14 @@ body {
     width: 1.5px;
     height: 30px;
 }
+.favoritePageIntoMenu {
+    position: relative;
+    color: var(--black);
+}
 
 .countTheProducts {
     position: absolute;
+    justify-content: center;
     width: 15px;
     height: 15px;
     border-radius: 50%;
@@ -255,11 +263,6 @@ body {
     font-size: 14px;
 }
 
-.favorite-page {
-    position: relative;
-    color: var(--black);
-}
-
 /*? over shop icon*/
 
 .shopping {
@@ -268,6 +271,7 @@ body {
 
 .countTheProductsShop {
     position: absolute;
+    justify-content: center;
     width: 15px;
     height: 15px;
     border-radius: 50%;
@@ -406,27 +410,6 @@ body {
     justify-content: space-between;
 }
 
-.style-cart:hover {
-    cursor: pointer;
-    color: black;
-}
-
-
-.style-cart:hover:after {
-    content: "cart page";
-    display: block;
-    position: absolute;
-    bottom: -24px;
-    left: 10px;
-    padding: 5px;
-    width: fit-content;
-    min-width: 50px;
-    font-size: 12px;
-    color: #fff;
-    background-color: black;
-    font-family: Arial, Helvetica, sans-serif;
-
-}
 .edit{
     font-size: 23px !important;
     color:gray;
@@ -455,18 +438,6 @@ body {
     background-color: black;
 }   
 
-.countTheProducts {
-    position: absolute;
-    width: 15px;
-    border-radius: 50%;
-    color: #000;
-    text-align: center;
-    background-color: var(--primary);
-    bottom: 18px;
-    left: 10px;
-    font-size: 14px;
-}
-
 .favorite-page {
     position: relative;
 }
@@ -477,18 +448,7 @@ body {
     position: relative;
 }
 
-.countTheProductsShop {
-    position: absolute;
-    width: 15px;
-    border-radius: 50%;
-    color: #000;
-    text-align: center;
-    background-color: var(--primary);
-    bottom: 18px;
-    left: 10px;
-    font-size: 14px;
-    z-index: 1;
-}
+
 
 .heart {
     color: gray;

@@ -1,5 +1,6 @@
 
 let favArrFromHome =  JSON.parse(localStorage.getItem('favArrFromHome')) || []
+let addFromHome =  JSON.parse(localStorage.getItem('addFromHome')) || []
 
 for (let i = 0; i < favArrFromHome.length; i++){
     let favProduct = document.querySelector('.fav-product')
@@ -45,9 +46,6 @@ for (let i = 0; i < favArrFromHome.length; i++){
     favProduct.appendChild(product)
 }
 
-
-
-
 //! display rating on products 
 function rating() {
     
@@ -59,7 +57,6 @@ function rating() {
         
         if (stars.length > 0) {  // Check if stars exist
             for (let i = 0; i < rating; i++) {
-                console.log("sended");
                 if (stars[i]) {
                     stars[i].classList.add("checked");
                 }else {
@@ -86,7 +83,7 @@ function handleEmptyFavCart() {
         <p>Empty Product List</p>
         </div>
         `
-        emptyList.classList.add('center')
+        emptyList.classList.add('centerTextEmptyPage')
     }
 }
 
@@ -127,8 +124,34 @@ addedItem()
 // catch the current page url 
 let currentRoute = document.querySelector(".current-route a")
 currentRoute.href = window.location.href
-// console.log(currentRoute);
 
 
+//! make the header fixed => (hide on scroll, show on scroll up)
+let lastScrollTop = 0;
+const header = document.querySelector("header");
 
+window.addEventListener("scroll", function() {
+    let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
 
+    if (currentScroll > lastScrollTop) {
+        header.style.top = "-80px"; 
+    } else {
+        header.style.top = "20px";
+    }
+    lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
+});
+
+//! menu list 
+document.querySelector('.menu').addEventListener("click", () => {    
+    document.querySelector('.list-menu').style.display = "flex"
+})
+
+document.querySelector('.close-list').addEventListener("click", () => {
+    document.querySelector('.list-menu').style.display = "none"
+})
+
+let countTheProductsShop = document.querySelectorAll('.countTheProductsShop') 
+countTheProductsShop.forEach((ele) => {
+    ele.textContent =`${addFromHome.length}`
+})
+// console.log(addFromHome.length);

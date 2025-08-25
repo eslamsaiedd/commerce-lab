@@ -8,156 +8,54 @@
     <title>favorite page</title>
 </head>
 <style>
-
-
-
-
-    .arrow-back {
-        margin-right: 20px;
-        cursor: pointer;
-    }
-    .title-header {
-        letter-spacing: 3px;
-    }
-
-    .fav-product {
-        display: grid;
-        grid-template-columns: repeat(4,1fr);
-        gap: 20px;
-    }
-    
-    .item {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        border-radius: 10px;
-        height: 400px;
-        gap: 8px;
-        padding: 0px 12px;
-        background-color: #fff;
-        margin-bottom: 30px;
-            a {
-                text-decoration: none;
-            }
-        }
-        .main-image {
-            display: flex;
-            justify-content: end;
-            align-items: center;
-            flex-direction: column;
-            background-color: #fff;
-            width: 100%;
-            min-width: 200px;
-            padding: 30px 0px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-                img {
-                    max-width: 85%;
-                    width: 70%;
-                    height: 200px;
-                    position: relative;
-                }
-            }
-        p {
-            color: gray;
-            font-size: 15px;
-        }
-        .description {
-            color: black;
-        }
-        .priceANDbutton {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;    
-        }
-        .priceOfPiece {
-            font-weight: 600;
-            font-size: 19px;
-        }
-        .addButton {
-            padding: 10px 20px !important;
-            border-color: transparent;
-            border-radius: 5px;
-            background-color: var(--primary);
-            cursor: pointer;
-        }
-        .addButton:hover {
-            background-color: var(--primary-hover);
-        }
-        .remove-fav-product {
-            cursor: pointer;
-            position: absolute;
-            right: 5px;
-            top: 5px;
-        }
-        .empty-product-page {
-            img {
-                height: 250px;
-            }
-            p {
-                color: #000;
-            }
-        }
-        .checked {
-            color: orange;
-            font-variation-settings:
-            'FILL' 1,
-            'wght' 400,
-            'GRAD' 0,
-            'opsz' 24
-        }
-        .material-symbols-outlined {
-            font-size: 20px !important;
-        }
-        .navFontSize {
-            font-size: 24px !important;
-        }
-        @media(max-width: 1200px) {
-            .fav-product {
-                grid-template-columns: repeat(3,1fr);   
-            }
-        }
-        
-        @media(max-width: 900px) {
-            .fav-product {
-                grid-template-columns: repeat(2,1fr);   
-            }
-        }
-        
-        @media(max-width: 600px) {
-            .fav-product {
-                grid-template-columns: repeat(1,1fr);
-                .product {
-                    width: 100%;
-                }
-            }
-        }
-        
-.center {
-    text-align: center;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 400px;
-}
-        
 </style>
 <body>
     <div class="container">
 
-        <header class="header">
-            <div class="menu">
-                <span class="material-symbols-outlined show-list">
-                    menu
-                </span>
-            </div>
-
-            <div class="navBar">
+        <div class="list-menu">
+            <span class="material-symbols-outlined close-list">
+                close
+            </span>
+            <div class="categoriesIntoMenu">
                 <a href="index.html">Home</a>
                 <a href="men-page.html">Men</a>
                 <a href="women-page.html">Women</a>
                 <a href="electronics-page.html">Electronics</a>
+            </div>
+            <div class="information">
+                
+                <div class="shopping">
+                    <a href="shopping-page.html">
+                        <span class="material-symbols-outlined style-cart" >
+                            shopping_cart
+                        </span>
+                        <div class="countTheProductsShop"></div>
+                        Shopping page
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+        <header class="header">
+            <div class="menu">
+                <span class="material-symbols-outlined show-list navFontSize">
+                    menu
+                </span>
+            </div>
+
+            <div class="categories">
+                categories
+                <span class="material-symbols-outlined">
+                    arrow_drop_down
+                </span>
+                <div class="individualCategorie">
+                    <a href="index.html">Home</a>
+                    <a href="men-page.html">Men</a>
+                    <a href="women-page.html">Women</a>
+                    <a href="electronics-page.html">Electronics</a>
+                </div>
             </div>
 
             <div class="search-bar">
@@ -169,17 +67,10 @@
 
             <div class="cart">
 
+                <!--? custom input checkbox for change color page -->
                 <div class="change-color">
-                    <!--? custom input checkbox for change color page -->
                     <input type="checkbox" id="custom-input">
                 </div>
-
-                <a class="favorite-page" href="fav-page.html">
-                    <div class="countTheProducts"></div>
-                    <span class="material-symbols-outlined  header-fav navFontSize">
-                        favorite
-                    </span>
-                </a>
 
                 <div class="shopping">
                     <a href="shopping-page.html">

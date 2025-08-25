@@ -22,11 +22,11 @@ for(let i = 0; i < addFromHome.length; i++) {
         <td data-th="price" class="price">${addFromHome[i].price}</td>
         <td class="quantity">
             <div class="quantity-child">
-                <span class="material-symbols-outlined size-icon remove">
+                <span  class="material-symbols-outlined size-icon remove">
                     remove
                 </span>
                 <div class="quantity-num">${addFromHome[i].quantity}</div>
-                <span class="material-symbols-outlined size-icon add">
+                <span  class="material-symbols-outlined size-icon add">
                     add
                 </span>
             </div>
@@ -36,6 +36,7 @@ for(let i = 0; i < addFromHome.length; i++) {
     tableProducts.appendChild(newProduct)
     
 }
+
 
 //* handle empty shopping cart
 
@@ -69,48 +70,12 @@ function deleteProduct() {
             countAnyChangePrice()
             handleEmptyShopCart()
             countItems()
+            checkStatusCart()
         })
     });
 }
 
-//! quantity => increase or decrease 
-let counter = document.getElementsByClassName("quantity-num")
-function quantity() {
-    for (let i = 0; i < counter.length; i++) {
 
-        let add = document.getElementsByClassName("add")
-        add[i].addEventListener("click", (e) => {
-            if (counter[i].textContent == 3) {
-                e.target.preventDefault()
-            }
-            addFromHome[i].quantity += 1
-            counter[i].textContent++
-            changeSubtotal()
-        })
-
-        let remove = document.getElementsByClassName("remove")
-        remove[i].addEventListener("click", (e) => {
-            if (counter[i].textContent == 1 ) {
-                e.target.preventDefault()
-            }
-            addFromHome[i].quantity -= 1
-            counter[i].textContent--
-            changeSubtotal()
-
-        })
-    }
-}
-deleteProduct()
-
-let Subtotal = document.querySelectorAll(".Subtotal")
-function changeSubtotal() {
-    quantity()
-    for (let i = 0; i < addFromHome.length; i++ ){
-        // console.log(Subtotal[i]);
-        Subtotal[i].textContent = Number(addFromHome[i].price.slice(1)) * Number(addFromHome[i].quantity) 
-    }
-}
-changeSubtotal()
 
 //! remove all value in input when you press on close icon
 let closeIconInput = document.querySelector(".closeIconInput")
@@ -152,7 +117,7 @@ let discount = document.querySelector(".discount-price")
 
 let applyButton = document.querySelector(".apply-code")
 applyButton.addEventListener("click", () => {
-    let finalResult = 0
+    let finalPrice = 0
     let isValid = false;
     for (let i = 0; i < validCoupon.length; i++) {
         if (discountCodeInput.value === validCoupon[i]) {
@@ -169,26 +134,66 @@ applyButton.addEventListener("click", () => {
         document.querySelector(".valid-coupon").style.display = "none";
     }
     //! total price minus discount and display price after discount 
-    finalResult = totalPrice.textContent.slice(1) - discount.textContent.slice(2)
-    totalPrice.innerHTML = `$${finalResult}`
+    finalPrice = totalPrice.textContent.slice(1) - discount.textContent.slice(2)
+    totalPrice.innerHTML = `$${finalPrice}`
 });
 
-// count the total price and Adjustable
-function countAnyChangePrice() {
-    let finalResult = 0
-    
+//! quantity => increase or decrease 
+let counter = document.getElementsByClassName("quantity-num")
+function quantity() {
+    let counter = document.getElementsByClassName("quantity-num")
+    let add = document.getElementsByClassName("add")
     for (let i = 0; i < addFromHome.length; i++) {
-        finalResult += parseFloat(addFromHome[i].price.slice(1))
+        add[i].addEventListener("click", () => {
+            updateQuantity(addFromHome[i].id,1,counter[i])
+        })
+
+        let remove = document.getElementsByClassName("remove")
+        remove[i].addEventListener("click", (e) => {
+            if (counter[i].textContent == 1 ) { e.target.preventDefault() } // if quantity decrease than 1, it will stop
+            updateQuantity(addFromHome[i].id,-1,counter[i])
+        })
     }
+
+    function updateQuantity(id, change ,newQuantity) {
+        let product = addFromHome.find(ele => ele.id === id)
+        if(product) {
+            product.quantity = Math.max(0, product.quantity + change);
+            newQuantity.textContent = product.quantity
+            changeSubtotal()
+        }
+    }
+}
+deleteProduct()
+
+let Subtotal = document.querySelectorAll(".Subtotal")
+quantity()
+function changeSubtotal() {
+    for (let i = 0; i < addFromHome.length; i++ ){
+        Subtotal[i].textContent = Number(addFromHome[i].price.slice(1)) * Number(addFromHome[i].quantity) 
+    }
+    countAnyChangePrice()
+}
+changeSubtotal()
+
+// count the total price and Adjustable
+
+function countAnyChangePrice() {
+    let finalPrice = 0
+    for (let i = 0; i < addFromHome.length; i++) {
+        finalPrice += parseFloat(Subtotal[i].textContent)
+    }
+    console.log(finalPrice);
     let sumItemsPrice = document.querySelector(".sumItemsPrice")
-    sumItemsPrice.innerHTML = `$${finalResult}`
-    totalPrice.textContent = `$${finalResult}` // if there isn't discount
+    sumItemsPrice.innerHTML = `$${finalPrice}`
+    totalPrice.textContent = `$${finalPrice}` // if there isn't discount
 }
 countAnyChangePrice()
 
+
+
 //! how many items into the cart 
 function countItems(){
-
     document.querySelectorAll(".howManyItemIntoCart").forEach(function(ele){
         ele.textContent = addFromHome.length
         if (ele.textContent !== 0) {
@@ -205,5 +210,24 @@ document.querySelector(".dropDown").addEventListener("click", () => {
     document.querySelector('.menu').classList.toggle("hiddenDropDownList")
 })
 
-//* when click checkout make a function to check if cart not empty 
-// change the button to added if this product existing into the cart
+
+//* when you on click checkout make a function to check  if cart empty or not 
+function checkStatusCart() {
+    if (addFromHome.length == 0) { 
+        let bodyContent = document.querySelector('.body-content')
+        bodyContent.style.display = "none"
+        let ifCartEmpty = document.createElement('div')
+        ifCartEmpty.className = 'ifCartEmpty'
+        document.querySelector('.container').appendChild(ifCartEmpty)
+        ifCartEmpty.innerHTML = 
+        `
+        <div>Your cart is empty. Start shopping now</div>
+        <a href="men-page.html">Men's products</a>
+        <a href="women-page.html">Women's products</a>
+        <a href="electronics-page.html">Electronic products</a>
+        `
+
+    }
+    // console.log(addFromHome);
+} 
+checkStatusCart()

@@ -14,58 +14,106 @@
 
                     <!--! menu -->
 
-        <div class="list">
-            <span class="material-symbols-outlined close">
+        <div class="list-menu">
+            <span class="material-symbols-outlined close-list">
                 close
             </span>
-            <a href="index.html">Home</a>
-            <a href="men-page.html">Men</a>
-            <a href="women-page.html">Women</a>
-            <a href="electronics-page.html">Electronics</a>
+            <div class="categoriesIntoMenu">
+                <a href="index.html">Home</a>
+                <a href="men-page.html">Men</a>
+                <a href="women-page.html">Women</a>
+                <a href="electronics-page.html">Electronics</a>
+            </div>
+            <div class="information">
+                
+                <div class="favoritePageIntoMenu">
+                    <a href="./fav-page.html">
+                        <span class="material-symbols-outlined ">
+                            favorite
+                        </span>
+                        <div class="countTheProducts"></div>
+                        Favorite page
+                    </a>
+                </div>
+
+                <div class="shopping">
+                    <a  href="./shopping-page.html">
+                        <span class="material-symbols-outlined style-cart" >
+                            shopping_cart
+                        </span>
+                        <div class="countTheProductsShop"></div>
+                        Shopping page
+                    </a>
+                </div>
+                
+            </div>
+
         </div>
 
-                        <!--! nav par -->
 
-        <!-- <div class="parent-nav"> -->
-        <div class="nav-bar">
-            <div class="left-side">
-                <div class="menu">
-                    <span class="material-symbols-outlined">
-                        menu
-                    </span>
-                </div>
+        <!-- header  -->
+        
+        <header class="header">
+
+            <div class="menu">
+                <span class="material-symbols-outlined">
+                    menu
+                </span>
+            </div>
+            <div class="categories">
+                categories
+                <span class="material-symbols-outlined">
+                    arrow_drop_down
+                </span>
+                <div class="individualCategorie">
                     <a href="index.html">Home</a>
                     <a href="men-page.html">Men</a>
                     <a href="women-page.html">Women</a>
                     <a href="electronics-page.html">Electronics</a>
+                </div>
             </div>
+
             <div class="search-bar">
-                <input type="text" placeholder="search...." onkeyup="search()" id="searchInput">
-                <span class="material-symbols-outlined style">
+                <input type="text" id="searchInput" onkeyup="search()" class="input" placeholder="search..." >
+                <span class="material-symbols-outlined styleIcon">
                     search
                 </span>
             </div>
-            <div class="right-side">
-                <a class="favorite-page" href="fav-page.html">
-                    <div class="countTheProducts"></div>
-                    <span class="material-symbols-outlined  header-fav">
-                        favorite
-                    </span>
-                </a> 
 
-                <!--! cart  -->
-                
-                <div class="cart">
+            <div class="cart">
+
+                <div class="change-color">
+                    <!--? custom input checkbox for change color page -->
+                    <input type="checkbox" id="custom-input">
+                </div>
+                <div class="myAccount">
+                    <a href="">
+                        <span class="material-symbols-outlined">
+                            person
+                        </span>
+                    </a>
+                </div>
+                <div class="favorite-page ">
+                    <a class="" href="fav-page.html">
+                        <span class="material-symbols-outlined">
+                            favorite
+                        </span>
+                        <div class="countTheProducts"></div>
+                    </a>
+                    <div class="header-fav"></div>
+                </div>
+
+                <div class="shopping">
                     <a href="shopping-page.html">
-                        <div class="countTheProductsShop"></div>
-                        <span class="material-symbols-outlined cart-hover">
+                        <span class="material-symbols-outlined style-cart" >
                             shopping_cart
                         </span>
+                        <div class="countTheProductsShop"></div>
                     </a>
                 </div>
 
             </div>
-        </div>
+        </header>
 
         <!-- !start content  -->
 
@@ -79,7 +127,7 @@
                     <h2 class="productName"></h2>
                     <p class="productDisc"></p>
                     <h2 class="price"></h2>
-                    <div class="star-rating">
+                    <div data-rating="" class="star-rating">
                         <span class="material-symbols-outlined ">
                             star
                         </span>
@@ -96,29 +144,34 @@
                             star
                         </span>
                     </div>
-                    <div class="two-button">
-                        <div class="counter">
-                            <span class="material-symbols-outlined remove">
-                                remove
-                            </span>
-                            <span class="count">
-                                1
-                            </span>
-                            <span class="material-symbols-outlined add">
-                                add
-                            </span>
+                    <div class="actionBtnToOrder">
+                        <div class="counterAndFavBtn">
+                            <div class="counter">
+                                <span class="material-symbols-outlined remove">
+                                    remove
+                                </span>
+                                <span class="count">
+                                    1
+                                </span>
+                                <span class="material-symbols-outlined add">
+                                    add
+                                </span>
+                            </div>
+                            <div class="fav-button">
+                                <span class="material-symbols-outlined addProFromSinglePage">
+                                    favorite
+                                </span>
+                            </div>
                         </div>
+
                         <button class="addToCaret">
                             <span class="material-symbols-outlined color-cart">
                                 shopping_cart
                             </span>
                             Add to cart
                         </button>
-                        <div class="fav-button">
-                            <span class="material-symbols-outlined addProFromSinglePage">
-                                favorite
-                            </span>
-                        </div>
+                            
+
                     </div>
             </div>
         </div>

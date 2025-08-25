@@ -21,11 +21,20 @@ async function loadData() {
 loadData();
 
 let count = document.querySelector('.count')
-document.querySelector('.add').addEventListener("click" , () => {
+let addBtn = document.querySelector('.add')
+
+//* add in the counter and make effect when you click
+addBtn.addEventListener("click" , () => {
     count.textContent++
 })
+addBtn.addEventListener('mousedown', (e) => {
+  e.currentTarget.classList.add('transation');
+});
+addBtn.addEventListener('mouseup', (e) => {
+  e.currentTarget.classList.remove('transation');
+});
 
-//! prevent remove button to work if counter == 1 
+//! prevent remove button to work if counter == 1 and make effect when you click
 let removeCount = document.querySelector('.remove')
 removeCount.addEventListener("click" , function(e){
     if (count.textContent == 1) {
@@ -34,6 +43,13 @@ removeCount.addEventListener("click" , function(e){
     }
     count.textContent--
 })
+removeCount.addEventListener('mousedown', (e) => {
+  e.currentTarget.classList.add('transation');
+});
+removeCount.addEventListener('mouseup', (e) => {
+  e.currentTarget.classList.remove('transation');
+});
+
 
 
 //! when you click on this button send this product to shopping page
@@ -73,19 +89,17 @@ function showSingleProduct() {
     document.querySelector('.content').id = products.id
 }
 
-
-
-//? get data from api to display 5 items below main product
+//? catch data from api to display 5 items below main product
 
 function showDetail(fourProducts) {
     
     //! display rate this product
     
-    // let rating = Math.round(products.rating.rate);  // Get the rounded rating
-    // let stars = document.querySelectorAll('.star-rating span');  // Select all star elements
-    // for (let i = 0; i < rating; i++) {
-        // stars[i].classList.add("checked");
-        // }
+    let rating = Math.round(products.rating.rate);  // Get the rounded rating
+    let stars = document.querySelectorAll('.star-rating span');  // Select all star elements
+    for (let i = 0; i < rating; i++) {
+        stars[i].classList.add("checked");
+    }
         
         //! show 5 products only
         
@@ -105,11 +119,11 @@ function showDetail(fourProducts) {
                 </div>
                 <div class="description">${filteredArray[i].title.split(" ").slice(0,4).join(" ")}</div>
             </a>
-            <div class="star-rating">
-                <span class="material-symbols-outlined ">
+            <div  class="ratingOtherProduct">
+                <span class="material-symbols-outlined">
                     star
                 </span>
-                <span class="material-symbols-outlined ">
+                <span class="material-symbols-outlined">
                     star
                 </span>
                 <span class="material-symbols-outlined">
@@ -191,12 +205,12 @@ function showDetail(fourProducts) {
         })
     })
 
-    // ! we rate the products 
+    //  put the rate on the products 
 
     fourProducts.forEach((element, index) => {
         let rating = Math.round(element.rating.rate);  
         let productElements = document.querySelectorAll(".product")[index];  
-        let stars = productElements.querySelectorAll(".star-rating span");
+        let stars = productElements.querySelectorAll(".ratingOtherProduct span");
         if (stars.length > 0) {  
             for (let i = 0; i < rating; i++) {
                 if (stars[i]) { stars[i].classList.add("checked")}
@@ -205,6 +219,9 @@ function showDetail(fourProducts) {
     });
     
 }
+
+
+
 
 
 
@@ -226,14 +243,30 @@ function search() {
 //! show and hide menu list
 
 document.querySelector('.menu').addEventListener("click", () => {    
-    document.querySelector('.list').style.display = "block"
+    document.querySelector('.list-menu').style.display = "flex"
 })
 
-document.querySelector('.list').addEventListener("click", () => {
-    document.querySelector('.list').style.display = "none"
+document.querySelector('.close-list').addEventListener("click", () => {
+    document.querySelector('.list-menu').style.display = "none"
 })
 
-//! when add new product to fav => show like alert
+// make the header fixed => (hide on scroll, show on scroll up)
+
+let lastScrollTop = 0;
+const header = document.querySelector("header");
+
+window.addEventListener("scroll", function() {
+let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+if (currentScroll > lastScrollTop) {
+    header.style.top = "-80px"; 
+} else {
+    header.style.top = "20px";
+}
+lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
+});
+
+//! when add new product to fav => display alert
 
 //* send main product to favorite page when you click on the button
 
@@ -262,13 +295,18 @@ addProFromSinglePage.addEventListener("click", (e) => {
 countFavProducts()
 function countFavProducts() {
     if (!favArrFromHome.length == 0) {
-        let countTheProductsFAv = document.querySelector(".countTheProducts")
-        countTheProductsFAv.textContent = `${favArrFromHome.length}`
+        let countTheProductsFAv = document.querySelectorAll(".countTheProducts")
+        countTheProductsFAv.forEach((ele) => {
+            ele.textContent = `${favArrFromHome.length}`
+        })
     }
     
     if (!addFromHome.length == 0) {
-        let countTheProductsShop = document.querySelector(".countTheProductsShop")
-        countTheProductsShop.textContent = `${addFromHome.length}`
+        let countTheProductsShop = document.querySelectorAll(".countTheProductsShop")
+        countTheProductsShop.forEach((ele) => {
+            // console.log(ele.textContent);
+            ele.textContent = `${addFromHome.length}`
+        })
     }
 }
 

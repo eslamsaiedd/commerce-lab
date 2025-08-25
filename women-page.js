@@ -185,12 +185,20 @@ document.querySelector('.close-list').addEventListener("click", () => {
 //! when add new product to fav => show like alert
 countFavProducts()
 function countFavProducts() {
-    if (!favArrFromHome.length == 0 &&!addFromHome.length == 0 ) {
-        let countTheProductsFAv = document.querySelector(".countTheProducts")
-        let countTheProductsShop = document.querySelector(".countTheProductsShop")
-        countTheProductsFAv.textContent = `${favArrFromHome.length}`
-        countTheProductsShop.textContent = `${addFromHome.length}`
-
+    if (!favArrFromHome.length == 0) {
+        let countTheProductsFAv = document.querySelectorAll(".countTheProducts")
+        countTheProductsFAv.forEach((ele) => {
+            ele.textContent = `${favArrFromHome.length}`
+        })
+    }
+    
+    if (!addFromHome.length == 0) {
+        let countTheProductsShop = document.querySelectorAll(".countTheProductsShop")
+        countTheProductsShop.forEach((ele) => {
+            console.log(ele.textContent);
+            
+            ele.textContent = `${addFromHome.length}`
+        })
     }
 }
 

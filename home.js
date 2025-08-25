@@ -237,7 +237,7 @@ document.querySelector('.close-list').addEventListener("click", () => {
 })
 
 
-//! make the header fixed => (hide on scroll, show on scroll up)
+// make the header fixed => (hide on scroll, show on scroll up)
 let lastScrollTop = 0;
 const header = document.querySelector("header");
 
@@ -252,7 +252,7 @@ if (currentScroll > lastScrollTop) {
 lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
 });
 
-//! if write any thing wrang display 404 page
+// if write any thing wrang display 404 page
 
 function handleRoutes() {
     const route = window.location.pathname   // Default to '#/' if hash is empty
@@ -310,14 +310,18 @@ customInput.addEventListener("click", function switchDarkMode() {
 countFavProducts()
 function countFavProducts() {
     if (!favArrFromHome.length == 0) {
-        // countTheProductsFAv.style.display = "block"
-        let countTheProductsFAv = document.querySelector(".countTheProducts")
-        countTheProductsFAv.textContent = `${favArrFromHome.length}`
+        let countTheProductsFAv = document.querySelectorAll(".countTheProducts")
+        countTheProductsFAv.forEach((ele) => {
+            ele.textContent = `${favArrFromHome.length}`
+        })
     }
     
     if (!addFromHome.length == 0) {
-        let countTheProductsShop = document.querySelector(".countTheProductsShop")
-        countTheProductsShop.textContent = `${addFromHome.length}`
+        let countTheProductsShop = document.querySelectorAll(".countTheProductsShop")
+        countTheProductsShop.forEach((ele) => {
+            // console.log(ele.textContent);         
+            ele.textContent = `${addFromHome.length}`
+        })
     }
 }
 
@@ -332,8 +336,5 @@ function displayToast() {
         toast.classList.remove("active-toast")
     },4000)
 }
-
-
-
 
 })
