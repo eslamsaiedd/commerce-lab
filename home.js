@@ -54,6 +54,7 @@ function FirstRequestToGraph() {
                         <div class="priceOfPiece">$${ele.price}</div>
                         <button class="addButton">
                             Add to cart
+                            
                         </button>
                     </div>
                 </div>    
@@ -95,7 +96,12 @@ function addedItem(){
     addButton.forEach(btn => {
             get_id.forEach(ele => {
             if (ele.id == btn.parentElement.parentElement.id) {
-                btn.textContent ="Added"
+                btn.innerHTML = `
+                                <span class="material-symbols-outlined">
+                                    check
+                                </span>
+                                Added
+                                `
             }
         })
     })
@@ -206,10 +212,11 @@ function changeHeart() {
                     rating: e.currentTarget.parentElement.children[2].dataset.rating
                 }
                 favArrFromHome.push(elem)
+                displayToast()
+
             }
             localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome)) 
             countFavProducts()
-            displayToast()
         })
     })
 }
@@ -321,6 +328,10 @@ function countFavProducts() {
         countTheProductsShop.forEach((ele) => {
             // console.log(ele.textContent);         
             ele.textContent = `${addFromHome.length}`
+        })
+    }else {
+        document.querySelectorAll('.countTheProductsShop').forEach((ele)=> {
+            ele.style.display="none"
         })
     }
 }

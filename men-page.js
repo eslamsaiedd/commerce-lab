@@ -100,7 +100,9 @@ await fetch("https://fakestoreapi.com/products")
         listProduct = data
         changeHeart()
         loadFavProduct()
-    addProductToCart()
+        addProductToCart()
+        addedItem()
+
 
     })
 }
@@ -120,9 +122,8 @@ function changeHeart() {
                     price: e.currentTarget.parentElement.children[3].children[0].textContent,
                     rating: e.currentTarget.parentElement.children[2].dataset.rating
                 }
-                console.log(elem.rating);
-                
                 favArrFromHome.push(elem)
+                displayToast()
             }
             localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome)) 
             countFavProducts()
@@ -153,7 +154,10 @@ function addProductToCart() {
                 id: e.parentElement.parentElement.id,
                 title: e.parentElement.parentElement.children[1].children[1].textContent,
                 price: e.parentElement.children[0].textContent,
+                quantity: 1
             }
+            console.log(addFromHome.quantity);
+            
             addFromHome.push(element)
             localStorage.setItem('addFromHome', JSON.stringify(addFromHome)) 
             countFavProducts()
@@ -161,14 +165,18 @@ function addProductToCart() {
         })
     })
 }
-
 function addedItem(){
     let addButton = document.querySelectorAll(".addButton")
     let get_id = JSON.parse(localStorage.getItem('addFromHome'))
     addButton.forEach(btn => {
-            get_id.forEach(ele => {
+        get_id.forEach(ele => {
             if (ele.id == btn.parentElement.parentElement.id) {
-                btn.textContent ="Added"
+                btn.innerHTML = `
+                                <span class="material-symbols-outlined">
+                                    check
+                                </span>
+                                Added
+                                `            
             }
         })
     })
@@ -195,9 +203,11 @@ function countFavProducts() {
     if (!addFromHome.length == 0) {
         let countTheProductsShop = document.querySelectorAll(".countTheProductsShop")
         countTheProductsShop.forEach((ele) => {
-            // console.log(ele.textContent);
-            
             ele.textContent = `${addFromHome.length}`
+        })
+    }else {
+        document.querySelectorAll('.countTheProductsShop').forEach((ele)=> {
+            ele.style.display="none"
         })
     }
 }
@@ -217,5 +227,35 @@ window.addEventListener("scroll", function() {
     lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
 });
 
-// current route and pervious route
+function displayToast() {
+    let toast = document.querySelector(".toastr")
+    toast.classList.add("active-toast")
+
+       setTimeout(() => {
+        toast.classList.remove("active-toast")
+    },4000)
+}
+
+//dynamic current route and pervious route.
+document.querySelector('.pervious-route').href = document.referrer
+const url =  document.referrer;
+const match = url.match(/\/([^\/]+)\.html$/);
+if (match) {
+    const name = match[1].split("-")[0];
+
+    if (name.charAt(0).toUpperCase() + name.slice(1) == 'Index') {
+        document.querySelector('.pervious-route').textContent = "Home"
+    }else if (name.charAt(0).toUpperCase() + name.slice(1) == "Shopping") {
+        document.querySelector('.pervious-route').textContent = "Cart"
+    }else if (name.charAt(0).toUpperCase() + name.slice(1) == "Fav") {
+        document.querySelector('.pervious-route').textContent = "Favorite"
+    }else {
+        document.querySelector('.pervious-route').textContent = name.charAt(0).toUpperCase() + name.slice(1)
+    }
+}
+
+//dynamic current route and name this page.
+let currentNameRoute = window.location.pathname.slice(1,-10)
+currentNameRoute = currentNameRoute.charAt(0).toUpperCase() + currentNameRoute.slice(1) 
 document.querySelector(".current-route").href = window.location 
+document.querySelector(".current-route").textContent =currentNameRoute  

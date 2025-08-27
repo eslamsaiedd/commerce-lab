@@ -12,13 +12,46 @@
 
 body {  
     font-family: Arial, Helvetica, sans-serif;
-    background-color: var(--main-color);
+    /* background-color: var(--main-color); */
 }
 
 .container {
     font-family: Arial, Helvetica, sans-serif;
     margin: auto;
     padding: 0px 50px;
+}
+/* toaster */
+.toastr {
+    width: 275px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    bottom: 30px;
+    right: 50px;
+    background-color: black;
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 10;
+    transform: translateX(calc(100% + 50px));
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
+    a {
+        color: white;
+        text-decoration: none;
+    }
+}
+.active-toast {
+    transform: translateX(calc(0%));
+}
+
+.toastr-heart {
+    color: white;
+    margin-right: 5px;
+    font-variation-settings:
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
 }
 
 /* menu */
@@ -86,10 +119,10 @@ body {
         gap: 8px;
     }
 }
-/* .information div:hover {
+.information a:hover {
     text-decoration: underline;
     cursor: pointer;
-} */
+}
 
         /* routes */
 .routes {
@@ -115,11 +148,16 @@ body {
 }
 .addButton {
     display: flex;
+    justify-content: center;
     align-items: center;
+    width: 120px;
+    height: 40px;
+    gap: 3px;
     padding: 10px 20px !important;
-    background-color: var(--primary);
     border-color: transparent;
     border-radius: 5px;
+    background-color: var(--primary);
+    cursor: pointer;    
 }   
         /*! nav */
 .header {
@@ -261,7 +299,7 @@ body {
 
 /*? over shop icon*/
 
-.shopping {
+.shopping,.favorite-page {
     position: relative;
 }
 
@@ -355,12 +393,12 @@ body {
     display: flex;
     flex-direction: column;
     position: relative;
-    /* width: 85%; */
-    height: 400px;
     gap: 8px;
-    padding: 0px 10px;
+    padding: 10px;
     background-color: #fff;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 1px solid #80808038;
     a {
         text-decoration: none;
     }
@@ -376,7 +414,8 @@ body {
         border-radius: 10px;
         margin-bottom: 10px;
         img {
-            width: 85%;
+            max-width: 85%;
+            width: 70%;
             height: 200px;
             position: relative;
         }
@@ -399,6 +438,14 @@ body {
         bottom: 10px;
         left: 20%;
     }
+}
+
+.product img:hover {
+    scale: 1.1;
+}
+.product:hover {
+    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+    scale: 1.01;
 }
 
 .style-cart:hover {

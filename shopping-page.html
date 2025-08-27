@@ -9,14 +9,80 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <span onclick="history.back()" class="material-symbols-outlined arrow-back">
-                arrow_back
+        <div class="list-menu">
+            <span class="material-symbols-outlined close-list">
+                close
             </span>
-            <div class="title-header">SHOPPING PRODUCTS</div>
-        </div>
-        <div class="body-content">
+            <div class="categoriesIntoMenu">
+                <a href="index.html">Home</a>
+                <a href="men-page.html">Men</a>
+                <a href="women-page.html">Women</a>
+                <a href="electronics-page.html">Electronics</a>
+            </div>
+            <div class="information">
+                <div class="favoritePageIntoMenu">
+                    <span class="material-symbols-outlined ">
+                        favorite
+                    </span>
+                    <a href="fav-page.html">
+                        <div class="countTheProducts"></div>
+                        Favorite page
+                    </a>
+                </div>
+            </div>
 
+        </div>
+
+        <header class="header">
+            <div class="menu">
+                <span class="material-symbols-outlined show-list navFontSize">
+                    menu
+                </span>
+            </div>
+
+            <div class="categories">
+                categories
+                <span class="material-symbols-outlined">
+                    arrow_drop_down
+                </span>
+                <div class="individualCategorie">
+                    <a href="index.html">Home</a>
+                    <a href="men-page.html">Men</a>
+                    <a href="women-page.html">Women</a>
+                    <a href="electronics-page.html">Electronics</a>
+                </div>
+            </div>
+
+            <div class="search-bar">
+                <input type="text" id="searchInput" onkeyup="search()" class="input" placeholder="search..." >
+                <span class="material-symbols-outlined styleIcon">
+                    search
+                </span>
+            </div>
+
+            <div class="cart">
+
+                <!--? custom input checkbox for change color page -->
+                <div class="change-color">
+                    <input type="checkbox" id="custom-input">
+                </div>
+
+                <div class="favorite-page ">
+                    <a class="" href="fav-page.html">
+                        <span class="material-symbols-outlined">
+                            favorite
+                        </span>
+                        <div class="countTheProducts"></div>
+                    </a>
+                    <div class="header-fav"></div>
+                </div>
+
+            </div>
+        </header>
+
+
+
+        <div class="body-content">
                 <!-- this code for mobile respons -->
 
                 <div class="contentForRespons" id="">

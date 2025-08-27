@@ -2,6 +2,7 @@
 //! pull product from home page and show these product in this page 
 
 let addFromHome =  JSON.parse(localStorage.getItem('addFromHome')) || []
+let favArrFromHome =  JSON.parse(localStorage.getItem('favArrFromHome')) || []
 let tableProducts = document.querySelector(".table-products")
 for(let i = 0; i < addFromHome.length; i++) {
     
@@ -97,6 +98,32 @@ closeIconInput.addEventListener("click", function() {
 
 });
 
+
+//! menu list 
+document.querySelector('.menu').addEventListener("click", () => {    
+    document.querySelector('.list-menu').style.display = "flex"
+})
+
+document.querySelector('.close-list').addEventListener("click", () => {
+    document.querySelector('.list-menu').style.display = "none"
+})
+
+
+// make the header fixed => (hide on scroll, show on scroll up)
+let lastScrollTop = 0;
+const header = document.querySelector("header");
+
+window.addEventListener("scroll", function() {
+let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+
+if (currentScroll > lastScrollTop) {
+    header.style.top = "-80px"; 
+} else {
+    header.style.top = "20px";
+}
+lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
+});
+
 //! create array contains valid coupons
 let validCoupon = [
     "SAVE20OFF",
@@ -183,14 +210,12 @@ function countAnyChangePrice() {
     for (let i = 0; i < addFromHome.length; i++) {
         finalPrice += parseFloat(Subtotal[i].textContent)
     }
-    console.log(finalPrice);
+    // console.log(finalPrice);
     let sumItemsPrice = document.querySelector(".sumItemsPrice")
     sumItemsPrice.innerHTML = `$${finalPrice}`
     totalPrice.textContent = `$${finalPrice}` // if there isn't discount
 }
 countAnyChangePrice()
-
-
 
 //! how many items into the cart 
 function countItems(){
@@ -205,11 +230,21 @@ function countItems(){
 } 
 countItems()
 
-// drop down list 
+// how many product into favorite page
+countFavProducts()
+function countFavProducts() {
+    if (!favArrFromHome.length == 0) {
+        let countTheProductsFAv = document.querySelectorAll(".countTheProducts")
+        countTheProductsFAv.forEach((ele) => {
+            ele.textContent = `${favArrFromHome.length}`
+        })
+    }
+}
+
+// drop down list in mobile responsive for choice quantity 
 document.querySelector(".dropDown").addEventListener("click", () => {
     document.querySelector('.menu').classList.toggle("hiddenDropDownList")
 })
-
 
 //* when you on click checkout make a function to check  if cart empty or not 
 function checkStatusCart() {
@@ -226,8 +261,9 @@ function checkStatusCart() {
         <a href="women-page.html">Women's products</a>
         <a href="electronics-page.html">Electronic products</a>
         `
-
     }
-    // console.log(addFromHome);
 } 
 checkStatusCart()
+
+
+

@@ -107,6 +107,27 @@ function removeProductFromFav() {
 }
 removeProductFromFav()
 
+addProductToCart()
+function addProductToCart() {
+    let btn = document.querySelectorAll('.addButton')
+    btn.forEach((e) => {
+        e.addEventListener("click", () => {
+
+            let element = {
+                img: e.parentElement.parentElement.children[1].children[0].children[0].src,
+                id: e.parentElement.parentElement.id,
+                title: e.parentElement.parentElement.children[1].children[1].textContent,
+                price: e.parentElement.children[0].textContent,
+                quantity: 1
+            }            
+            addFromHome.push(element)
+            localStorage.setItem('addFromHome', JSON.stringify(addFromHome)) 
+            addedItem()
+            countFavProducts()
+        })
+    })
+}
+
 // updating text's button (add to cart => added) 
 function addedItem() {
     let addButton = document.querySelectorAll(".addButton")
@@ -114,17 +135,17 @@ function addedItem() {
     addButton.forEach(btn => {
             get_id.forEach(ele => {
             if (ele.id == btn.parentElement.parentElement.id) {
-                btn.textContent ="Added"
+                btn.innerHTML = `
+                                <span class="material-symbols-outlined">
+                                    check
+                                </span>
+                                Added
+                                `            
             }
         })
     })
 }
 addedItem()
-
-// catch the current page url 
-let currentRoute = document.querySelector(".current-route a")
-currentRoute.href = window.location.href
-
 
 //! make the header fixed => (hide on scroll, show on scroll up)
 let lastScrollTop = 0;
@@ -149,9 +170,41 @@ document.querySelector('.menu').addEventListener("click", () => {
 document.querySelector('.close-list').addEventListener("click", () => {
     document.querySelector('.list-menu').style.display = "none"
 })
+countFavProducts()
+function countFavProducts() {
 
-let countTheProductsShop = document.querySelectorAll('.countTheProductsShop') 
-countTheProductsShop.forEach((ele) => {
-    ele.textContent =`${addFromHome.length}`
-})
-// console.log(addFromHome.length);
+    if (!addFromHome.length == 0) {
+        let countTheProductsShop = document.querySelectorAll(".countTheProductsShop")
+        countTheProductsShop.forEach((ele) => {
+            ele.textContent = `${addFromHome.length}`
+        })
+    }else {
+        document.querySelectorAll('.countTheProductsShop').forEach((ele)=> {
+            ele.style.display="none"
+        })
+    }
+}
+
+//dynamic current route and pervious route.
+document.querySelector('.pervious-route').href = document.referrer
+const url =  document.referrer;
+const match = url.match(/\/([^\/]+)\.html$/);
+    if (match) {
+        const name = match[1].split("-")[0];
+        name = name.charAt(0).toUpperCase() + name.slice(1)
+
+        if (name == 'Index') {
+            document.querySelector('.pervious-route').textContent = "Home"
+        }else if (name == "Shopping") {
+            document.querySelector('.pervious-route').textContent = "Cart"
+        }
+        else {
+            document.querySelector('.pervious-route').textContent = name
+        }
+    }
+
+//dynamic current route and name this page.
+let currentNameRoute = window.location.pathname.slice(1,-10)
+currentNameRoute = currentNameRoute.charAt(0).toUpperCase() + currentNameRoute.slice(1) 
+document.querySelector(".current-route").href = window.location 
+document.querySelector(".current-route").textContent =currentNameRoute  

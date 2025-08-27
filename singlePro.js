@@ -16,7 +16,7 @@ async function loadData() {
         products = await singleProductData.json();
         await showSingleProduct();
         loadElement();
-        checkItemIfAdded()
+        addedItem()
 }
 loadData();
 
@@ -144,8 +144,6 @@ function showDetail(fourProducts) {
             </div>
         `
         document.querySelector('.listProducts').appendChild(productElement)
-
-        // console.log(filteredArray);
         
     }
 
@@ -163,6 +161,7 @@ function showDetail(fourProducts) {
             addFromHome.push(element)
             localStorage.setItem('addFromHome', JSON.stringify(addFromHome)) 
             countFavProducts()
+            addedItem()
         })
     })
 
@@ -189,21 +188,31 @@ function showDetail(fourProducts) {
     //! If the product exists, put (clicked) as a className  
     let otherProducts = document.querySelectorAll(".product")
     favArrFromHome.forEach((eleFav) => {
-        
+    
         otherProducts.forEach((elePro) => {
             if (elePro.id == eleFav.id){
                 elePro.children[0].classList.add("clicked")                    
             }
         })
     })
-    
-    addFromHome.forEach(element => {  
-        document.querySelectorAll(".addButton").forEach(btn => {
-            if (btn.parentElement.parentElement.id == element.id) {
-                btn.textContent = "added"
+
+     addedItem()
+    function addedItem(){
+    let addButton = document.querySelectorAll(".addButton")
+    let get_id = JSON.parse(localStorage.getItem('addFromHome'))
+    addButton.forEach(btn => {
+            get_id.forEach(ele => {
+            if (ele.id == btn.parentElement.parentElement.id) {
+                btn.innerHTML = `
+                                <span class="material-symbols-outlined">
+                                    check
+                                </span>
+                                Added
+                                `
             }
         })
     })
+}
 
     //  put the rate on the products 
 
@@ -219,11 +228,6 @@ function showDetail(fourProducts) {
     });
     
 }
-
-
-
-
-
 
 //! search bar (don't work)
 
@@ -307,6 +311,10 @@ function countFavProducts() {
             // console.log(ele.textContent);
             ele.textContent = `${addFromHome.length}`
         })
+    }else {
+        document.querySelectorAll('.countTheProductsShop').forEach((ele)=> {
+            ele.style.display="none"
+        })
     }
 }
 
@@ -322,15 +330,15 @@ function loadElement() {
 }
 
 // check if this product into the cart or not
-function checkItemIfAdded() {
-    let content  = document.querySelector(".content")
-    addFromHome.forEach(ele => {
-        if(ele.id == content.id) {
-            let btn = document.querySelector(".addToCaret")
-            btn.textContent = "Added" 
-        }    
-    })
-}
+// function checkItemIfAdded() {
+//     let content  = document.querySelector(".content")
+//     addFromHome.forEach(ele => {
+//         if(ele.id == content.id) {
+//             let btn = document.querySelector(".addToCaret")
+//             btn.textContent = "Added" 
+//         }    
+//     })
+// }
 
 
 
