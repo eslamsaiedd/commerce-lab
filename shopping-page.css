@@ -10,8 +10,9 @@
 }
 
 body {
-    /* background-color: #FBF8EF; */
     font-family: Arial, Helvetica, sans-serif;
+    width: 100vw;
+    height: 100vh;
 }
 .container {
     font-family: Arial, Helvetica, sans-serif;
@@ -24,6 +25,7 @@ body {
     justify-content: space-between;
     align-items: start;
     gap: 20px;
+    position: relative;
 }
 
 /* header style  */
@@ -32,7 +34,7 @@ body {
     flex-direction: column;
     justify-content: space-between;
     height: 95%;
-    width: 220px;
+    width: 300px;
     background-color: var(--main-color);
     position: fixed;
     top: 0px;
@@ -170,8 +172,10 @@ body {
     top: 22px;
     left: 0;
     padding: 10px;
+    border: 1px solid #404553;
     border-radius: 10px;
     z-index: 3;
+    width: 130px;
     a{
         text-decoration: none;
         color: var(--black);
@@ -180,7 +184,6 @@ body {
 
 .categories:hover .individualCategorie {
     display: flex;
-    width: 130px;
 
 }
 
@@ -333,7 +336,7 @@ body {
 }
 
 
-/* content style  */
+/*! content style  */
 
 .content {
     width: 65%;
@@ -348,6 +351,11 @@ body {
         font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
         margin-bottom: 10px;
     }
+}
+.mobileContent {
+    position: relative;
+    display: none;
+    width: 100%;
 }
 
 .shop-product{
@@ -559,15 +567,16 @@ a {
         margin-bottom: 15px;
         display: flex;
         align-items: center;
+        justify-content: space-between;
         div { 
-            width: 100%;
+            width: fit-content;
             display: flex;
-            justify-content: space-between;
+            justify-content: end;
             font-size: 14px;
             color: gray;
             .totalPrice{
                 color: #404553;
-                font-size: 18px;
+                font-size: 20px;
                 font-weight: 700;
             }
         } 
@@ -575,11 +584,17 @@ a {
 
     .total {
         color: #404553;
-        font-size: 20px;
+        font-size: 25px;
         font-weight: 700;
         margin-right: 7px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
     }
-  
+    .diffStyle {
+        font-size: 14px;
+        color: gray;
+    }
     .checkOut {
         background-color: #d88c00;
         width: 100%;
@@ -598,6 +613,39 @@ a {
 }
 
 /*! style for hidden content, it will display when width:414px  */
+/*! mobile styling */
+
+.alertWhenRemoveProduct {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 22222;
+    background-color: darkgray;
+    text-align: center;
+    color: #404553;
+    font-size: 16px;
+    border-radius: 10px;
+    padding: 15px;
+    width: max-content;
+    .actionsButton {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 10px;
+        button{
+            padding: 5px 15px;
+            border-radius: 6px;
+            border-color: transparent;
+        }
+    }
+}
+.blurBackGround {
+    filter: blur(8px);
+  -webkit-filter: blur(8px);
+}
 
 .contentForRespons{
     display: none !important;
@@ -621,41 +669,46 @@ a {
     padding: 20px 60px 0px 0px;
 }
 .create-back-img {
-    width: 200px;
-    height: 200px;
+    width: 125px;
+    height: 125px;
     background-color: #fff;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 15px 0px 0px 15px;
+    border-radius: 10px;
+    /* box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19); */
 }
+
 .imageForRespons {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
 }
 
 .counterAndremove {
     display: flex;
-    gap: 7px;
+    justify-content: space-between;
+        /* gap: 7px; */
 }
-.removeThisElement {
+.styleForRemove {
     display: flex;
-    width: 80px;
+    width: auto;
     justify-content: center;
     align-items: center;
     background-color: #fff;
+    color: red;
     border-radius: 5px;
-    padding: 5px 10px;
+    padding: 5px;
     font-size: 14px;
+    border: 1px solid red;
 }
         /*! right-content  */
 
 .right-content {
-    margin: 10px;
     display: flex;
     gap: 5px;
-    /* justify-content: center; */
+    justify-content: center;
     flex-direction: column;
+    width: 100%;
     h1 {
         margin-bottom: 20px;
     }
@@ -665,43 +718,42 @@ a {
     font-weight: 600;
 }
 .title {
-    color: gray;
+    color: #404553;
     font-size: 14px;
     font-weight: 600;
     
 }
 
-.price {
-    font-size: 18px;
+.priceIntoResponsive {
+    font-size: 17px;
+    font-weight: 600;
+    color: #404553;
 }
 
-/* .counter {
-    width: 90px;
+.counter {
+    width: 70px;
     height: 25px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #fff;
+    border: 1px solid gray;
     border-radius: 5px;
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 600;
     padding: 5px;
+    max-width: 100px !important;
     .material-symbols-outlined {
         cursor: pointer;
     }
-} */
-.dropDownList {
-    /* width: 90px; */
-    /* background-color: #fff; */
-
 }
-.select {
-    width: 90px;
-    padding: 5px 5px 0px 5px;
-    background-color: #fff;
-    position: relative;
+
+.actions {
+    width: fit-content;
+    min-width: 101px;
+    max-width: 101px;
     display: flex;
-    justify-content: space-between;
+    gap: 8px;
 }
 
 .menu {
@@ -712,10 +764,6 @@ a {
 }
 .hiddenDropDownList {
     display: block;
-}
-.option {
-    list-style-type: none;
-    padding: 5px;
 }
 
 /* .counter .material-symbols-outlined:hover {
@@ -808,12 +856,20 @@ a {
         }
     }
     .body-content {
+        width: 100%;
         flex-direction: column;
+    }
+    .mobileContent{
+        display: block;
     }
     .contentForRespons{
         display: flex !important;
+        gap: 8px;
         padding: 0px;
-        margin: 0px;
+        margin: auto;
+        padding: 0px 0px 15px 0px;
+        border-radius: 4px;
+        border-bottom: 1px solid gray;
     }
 
     .left-content {

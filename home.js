@@ -321,12 +321,15 @@ function countFavProducts() {
         countTheProductsFAv.forEach((ele) => {
             ele.textContent = `${favArrFromHome.length}`
         })
+    }else {
+        document.querySelectorAll('.countTheProductsShop').forEach((ele)=> {
+            ele.style.display="none"
+        })
     }
     
     if (!addFromHome.length == 0) {
         let countTheProductsShop = document.querySelectorAll(".countTheProductsShop")
         countTheProductsShop.forEach((ele) => {
-            // console.log(ele.textContent);         
             ele.textContent = `${addFromHome.length}`
         })
     }else {

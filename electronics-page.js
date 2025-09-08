@@ -196,6 +196,10 @@ function countFavProducts() {
         countTheProductsFAv.forEach((ele) => {
             ele.textContent = `${favArrFromHome.length}`
         })
+    }else {
+        document.querySelectorAll('.countTheProducts').forEach((ele)=> {
+            ele.style.display="none"
+        })
     }
     
     if (!addFromHome.length == 0) {

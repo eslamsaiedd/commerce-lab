@@ -72,6 +72,9 @@ body {
     padding: 35px 20px;
     z-index: 100;
     .categoriesIntoMenu {
+        background-color: white;
+        padding: 10px;
+        border-radius: 10px;
         a {
             text-decoration: none;
             color: black;
@@ -189,7 +192,9 @@ body {
     left: 0;
     padding: 10px;
     border-radius: 10px;
+    border: 1px solid #404553;
     z-index: 3;
+    width: 130px;
     a{
         text-decoration: none;
         color: var(--black);
@@ -200,7 +205,6 @@ body {
 }
 .categories:hover .individualCategorie {
     display: flex;
-    width: 130px;
 }
 
 .search-bar {
@@ -677,6 +681,17 @@ p {
     'opsz' 24
 }
 
+.other-products {
+    padding:  0px 44px;
+    margin: auto;
+}
+
+.title {
+    letter-spacing: 4px;
+    font-size: 12px;
+    margin-top: 22px;
+}
+
 @media(max-width:1500px) {
     .listProducts {
         grid-template-columns: repeat(4,1fr);
@@ -727,17 +742,9 @@ p {
             margin-bottom: 0px;
         }
     }
-}
-
-.other-products {
-    padding:  0px 44px;
-    margin: auto;
-}
-
-.title {
-    letter-spacing: 4px;
-    font-size: 12px;
-    margin-top: 22px;
+    .fav {
+        display: block !important;
+    }
 }
 
 @media (max-width: 650px) {

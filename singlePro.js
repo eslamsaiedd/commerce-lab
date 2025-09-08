@@ -20,36 +20,63 @@ async function loadData() {
 }
 loadData();
 
+// store the quantity 
 let count = document.querySelector('.count')
 let addBtn = document.querySelector('.add')
+let minusBtn = document.querySelector('.remove')
+function quantity() {
+    // if savedData not array make it array 
+    let savedData = JSON.parse(localStorage.getItem("cartData"));
+    if (!Array.isArray(savedData)) {
+        savedData = [];
+    }
+    // get the quantity for this product 
+    let match = savedData.find(p => p.id === productId);
+    // if there is quantity store it, if not start with 1 
+    let currentQuantity = match ? match.quantity : 1;
 
-//* add in the counter and make effect when you click
-addBtn.addEventListener("click" , () => {
-    count.textContent++
-})
+    count.textContent = currentQuantity;
+
+    // increase
+    addBtn.addEventListener("click", () => {
+        currentQuantity++;
+        count.textContent = currentQuantity;
+        saveQuantity(productId, currentQuantity);
+    });
+
+    // decrease
+    minusBtn.addEventListener("click", () => {
+        if (currentQuantity > 1) {
+            currentQuantity--;
+            count.textContent = currentQuantity;
+            saveQuantity(productId, currentQuantity);
+        }
+    });
+
+    // to upgrade info in localstorage 
+    function saveQuantity(id, quantity) {
+        let updatedData = JSON.parse(localStorage.getItem("cartData"));
+
+        // if this product exist remove it, after update push it
+        updatedData = updatedData.filter(p => p.id !== id);
+        updatedData.push({ id, quantity });
+        localStorage.setItem("cartData", JSON.stringify(updatedData));
+    }
+}
+quantity()
+
 addBtn.addEventListener('mousedown', (e) => {
   e.currentTarget.classList.add('transation');
 });
 addBtn.addEventListener('mouseup', (e) => {
   e.currentTarget.classList.remove('transation');
 });
-
-//! prevent remove button to work if counter == 1 and make effect when you click
-let removeCount = document.querySelector('.remove')
-removeCount.addEventListener("click" , function(e){
-    if (count.textContent == 1) {
-        e.target.preventDefault()
-        removeCount.classList.add("preventButton")
-    }
-    count.textContent--
-})
-removeCount.addEventListener('mousedown', (e) => {
+minusBtn.addEventListener('mousedown', (e) => {
   e.currentTarget.classList.add('transation');
 });
-removeCount.addEventListener('mouseup', (e) => {
+minusBtn.addEventListener('mouseup', (e) => {
   e.currentTarget.classList.remove('transation');
 });
-
 
 
 //! when you click on this button send this product to shopping page
@@ -71,14 +98,13 @@ addToCart.addEventListener("click", function(e) {
 })
 
 
-
 let fourProducts = null
 fetch('https://fakestoreapi.com/products?limit=5')
-    .then(res=> res.json())
-    .then(json => {
-        fourProducts = json
-        showDetail(fourProducts)
-    });
+.then(res=> res.json())
+.then(json => {
+    fourProducts = json
+    showDetail(fourProducts)
+});
     
     
 function showSingleProduct() {
@@ -302,6 +328,10 @@ function countFavProducts() {
         let countTheProductsFAv = document.querySelectorAll(".countTheProducts")
         countTheProductsFAv.forEach((ele) => {
             ele.textContent = `${favArrFromHome.length}`
+        })
+    }else {
+        document.querySelectorAll('.countTheProducts').forEach((ele)=> {
+            ele.style.display="none"
         })
     }
     

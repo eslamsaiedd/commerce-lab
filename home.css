@@ -41,6 +41,9 @@ body {
     padding: 35px 20px;
     z-index: 100;
     .categoriesIntoMenu {
+        background-color: white;
+        padding: 10px;
+        border-radius: 10px;
         a {
             text-decoration: none;
             color: black;
@@ -191,7 +194,9 @@ body {
     left: 0;
     padding: 10px;
     border-radius: 10px;
+    border: 1px solid #404553;
     z-index: 3;
+    width: 130px;
     a{
         text-decoration: none;
         color: var(--black);
@@ -200,7 +205,6 @@ body {
 
 .categories:hover .individualCategorie {
     display: flex;
-    width: 130px;
 
 }
 
@@ -422,6 +426,7 @@ body {
     font-size: 15px;
 }
 .men-word {
+    width: fit-content;
     color: black;
 }
 .edit-post {
@@ -692,6 +697,9 @@ body {
             right: auto;
         }
     }
+    .fav {
+        display: block !important;
+    }
 }
 @media (max-width: 650px) {
     .search-bar{
@@ -699,6 +707,7 @@ body {
             width: 230px;
         }
     }
+   
 }
 @media(max-width: 600px) {
     .search-bar{
@@ -712,6 +721,7 @@ body {
     .all-product {
         grid-template-columns: repeat(1,1fr);
     }
+    
 }
 @media(max-width: 520px) {
     .information {
@@ -725,12 +735,10 @@ body {
             width: 80px;
         }
     }
+    
 }
 
 @media(max-width: 430px) {
-    .header {
-        margin: 0px 0px 20px 0px;
-    }
     .search-bar{
         input {
             width: 90px;

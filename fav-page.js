@@ -70,28 +70,10 @@ function rating() {
 }
 rating()
 
-//! check if favorite page is empty
-
-function handleEmptyFavCart() {
-    if(favArrFromHome.length < 1) {
-        let emptyList =   document.querySelector('.fav-product')
-        // emptyList.textContent = 'Empty Product List'
-        emptyList.innerHTML =
-        `
-        <div class="empty-product-page">
-        <img src="https://i.ibb.co/Yc2bqCh/shopping-cart-outline-vector-illustration-260nw-2029023626-removebg-preview.png">
-        <p>Empty Product List</p>
-        </div>
-        `
-        emptyList.classList.add('centerTextEmptyPage')
-    }
-}
-
 //!remove favorite product from favArrFromHome
 
 let removeFavProduct = document.querySelectorAll(".remove-fav-product")
 function removeProductFromFav() {
-    handleEmptyFavCart()
     removeFavProduct.forEach((fav) => {
         
         fav.addEventListener("click", (e) => {
@@ -101,9 +83,9 @@ function removeProductFromFav() {
             })
             favArrFromHome = filteredProduct
             localStorage.setItem('favArrFromHome', JSON.stringify(favArrFromHome))
-            handleEmptyFavCart()
         })
     })
+    checkStatusCart()
 }
 removeProductFromFav()
 
@@ -202,9 +184,26 @@ const match = url.match(/\/([^\/]+)\.html$/);
             document.querySelector('.pervious-route').textContent = name
         }
     }
-
 //dynamic current route and name this page.
 let currentNameRoute = window.location.pathname.slice(1,-10)
 currentNameRoute = currentNameRoute.charAt(0).toUpperCase() + currentNameRoute.slice(1) 
 document.querySelector(".current-route").href = window.location 
 document.querySelector(".current-route").textContent =currentNameRoute  
+
+//* when you on click checkout make a function to check  if cart empty or not 
+function checkStatusCart() {
+    if (favArrFromHome.length == 0) { 
+        let ifCartEmpty = document.createElement('div')
+        ifCartEmpty.className = 'ifCartEmpty'
+        document.querySelector('.fav-product').appendChild(ifCartEmpty)
+        ifCartEmpty.innerHTML = 
+        `
+        <div>Your cart is empty. Start shopping now</div>
+        <a href="men-page.html">Men's products</a>
+        <a href="women-page.html">Women's products</a>
+        <a href="electronics-page.html">Electronic products</a>
+        `
+        document.querySelector('.fav-product').style.gridTemplateColumns = "repeat(1, 1fr)"
+    }
+} 
+checkStatusCart()

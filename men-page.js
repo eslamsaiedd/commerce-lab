@@ -193,10 +193,15 @@ document.querySelector('.close-list').addEventListener("click", () => {
 //! when add new product to fav => show like alert
 countFavProducts()
 function countFavProducts() {
+    
     if (!favArrFromHome.length == 0) {
         let countTheProductsFAv = document.querySelectorAll(".countTheProducts")
         countTheProductsFAv.forEach((ele) => {
             ele.textContent = `${favArrFromHome.length}`
+        })
+    }else {
+        document.querySelectorAll('.countTheProducts').forEach((ele)=> {
+            ele.style.display="none"
         })
     }
     

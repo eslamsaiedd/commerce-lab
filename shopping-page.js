@@ -36,28 +36,49 @@ for(let i = 0; i < addFromHome.length; i++) {
     `
     tableProducts.appendChild(newProduct)
     
+    // for mobile responsive
+    let contentForRespons = document.createElement('div')
+    contentForRespons.classList.add("contentForRespons")
+    contentForRespons.id = addFromHome[i].id
+    contentForRespons.innerHTML = 
+    `
+        <div class="left-content">
+            <div class="create-back-img">
+                <img class="imageForRespons" src="${addFromHome[i].img}" alt=""> 
+            </div>
+        </div>    
+        <div class="right-content">
+            <a href="singlePro.html?id=${addFromHome[i].id}" class="title">${addFromHome[i].title.split(' ').slice(0,3).join(" ")}</a>
+            <p class="priceIntoResponsive">${addFromHome[i].price}</p>
+            <div class="counterAndremove">
+                <div class="counter">
+                    <span class="material-symbols-outlined removeForMobil">
+                        remove
+                    </span>
+                    <div class="quantityNumForMobil">
+                        ${addFromHome[i].quantity}
+                    </div>
+                    <span class="material-symbols-outlined addForMobil">
+                        add
+                    </span>
+                </div>
+                
+                <div class=" styleForRemove">
+                    <span class="material-symbols-outlined">
+                        delete
+                    </span> 
+                </div>
+            </div>
+        </div>
+    `
+    document.querySelector(".mobileContent").appendChild(contentForRespons )
 }
 
-
-//* handle empty shopping cart
-
-function handleEmptyShopCart() {
-    if (addFromHome.length < 1) {
-        let tableProducts = document.querySelector('.table-products')
-        let createTr = document.createElement("tr")
-        createTr.classList.add("handleEmptyShopCart")
-        createTr.innerHTML = ` <td> Empty Shopping List </td> `
-        tableProducts.appendChild(createTr)
-    }
-}
 
 //! remove product from addFromHome
-
 function deleteProduct() {
-    handleEmptyShopCart()
-    let cancels = document.querySelectorAll('.remove-product span')
-
-    cancels.forEach(cancel => {
+    let removeIcon = document.querySelectorAll('.remove-product span')
+    removeIcon.forEach(cancel => {
         cancel.addEventListener('click',(e) => {
             e.currentTarget.parentElement.parentElement.remove()
 
@@ -69,13 +90,53 @@ function deleteProduct() {
             localStorage.setItem('addFromHome', JSON.stringify(addFromHome))
 
             countAnyChangePrice()
-            handleEmptyShopCart()
             countItems()
             checkStatusCart()
         })
     });
 }
 
+
+//! delete product and appear alert ask if are you sure for delete this product
+function deleteProductResponsive() {
+    let removeIcon   = document.querySelectorAll('.styleForRemove span');
+    let alertMessage = document.querySelector('.alertWhenRemoveProduct');
+    let container    = document.querySelector('.container');
+
+    removeIcon.forEach((icon) => {
+        icon.addEventListener('click', (e) => {
+            container.classList.add('blurBackGround');
+            alertMessage.style.display = 'block';
+
+            // if user say yes
+            document.querySelector('.yes').onclick = () => {
+                let product = e.target.parentElement.parentElement.parentElement.parentElement;
+                if (product) {
+                    
+                    const itemId = product.id;// catch id
+                    product.remove(); // remove the product 
+
+                    // remove product from array
+                    addFromHome = addFromHome.filter(p => String(p.id) !== String(itemId));
+                    localStorage.setItem('addFromHome', JSON.stringify(addFromHome));
+
+                    countAnyChangePrice();
+                    countItems();
+                    checkStatusCart();
+                }
+                // delete alert message 
+                alertMessage.style.display = 'none';
+                container.classList.remove('blurBackGround');
+            };
+
+            //   if user say no 
+            document.querySelector('.no').onclick = () => {
+            alertMessage.style.display = 'none';
+            container.classList.remove('blurBackGround');
+            };
+        });
+    });
+}
 
 
 //! remove all value in input when you press on close icon
@@ -141,7 +202,6 @@ let validCoupon = [
 
 let totalPrice = document.querySelector(".totalPrice") 
 let discount = document.querySelector(".discount-price")
-
 let applyButton = document.querySelector(".apply-code")
 applyButton.addEventListener("click", () => {
     let finalPrice = 0
@@ -165,36 +225,56 @@ applyButton.addEventListener("click", () => {
     totalPrice.innerHTML = `$${finalPrice}`
 });
 
-//! quantity => increase or decrease 
-let counter = document.getElementsByClassName("quantity-num")
-function quantity() {
-    let counter = document.getElementsByClassName("quantity-num")
-    let add = document.getElementsByClassName("add")
-    for (let i = 0; i < addFromHome.length; i++) {
-        add[i].addEventListener("click", () => {
-            updateQuantity(addFromHome[i].id,1,counter[i])
-        })
+// working in desktop and mobile 
+function quantityHandler(addClass, removeClass, counterClass) {
+    let counter = document.getElementsByClassName(counterClass);
+    let add = document.getElementsByClassName(addClass);
+    let remove = document.getElementsByClassName(removeClass);
 
-        let remove = document.getElementsByClassName("remove")
-        remove[i].addEventListener("click", (e) => {
-            if (counter[i].textContent == 1 ) { e.target.preventDefault() } // if quantity decrease than 1, it will stop
-            updateQuantity(addFromHome[i].id,-1,counter[i])
-        })
+    // if we have any data bring it
+    let savedData = JSON.parse(localStorage.getItem("cartData"));
+    if (savedData) {
+        addFromHome.forEach(p => {
+            let match = savedData.find(s => s.id === p.id);
+            if (match) p.quantity = match.quantity;
+        });
     }
 
-    function updateQuantity(id, change ,newQuantity) {
-        let product = addFromHome.find(ele => ele.id === id)
-        if(product) {
-            product.quantity = Math.max(0, product.quantity + change);
-            newQuantity.textContent = product.quantity
+    for (let i = 0; i < addFromHome.length; i++) {
+        counter[i].textContent = addFromHome[i].quantity || 1;
+
+        // Increase
+        add[i].addEventListener("click", () => {
+            updateQuantity(addFromHome[i].id, 1, counter[i]);
+        });
+
+        // Decrease
+        remove[i].addEventListener("click", () => {
+            updateQuantity(addFromHome[i].id, -1, counter[i]);
+        });
+    }
+
+    function updateQuantity(id, change, counterElem) {
+        let product = addFromHome.find(ele => ele.id === id);
+        if (product) {
+            product.quantity = Math.max(0, (product.quantity || 1) + change);
+            counterElem.textContent = product.quantity;
+
+            // save any changes in localstorage
+            localStorage.setItem("cartData", JSON.stringify(addFromHome));
             changeSubtotal()
         }
     }
 }
-deleteProduct()
 
+
+deleteProduct()
+deleteProductResponsive()
+
+quantityHandler("addForMobil", "removeForMobil", "quantityNumForMobil");
+quantityHandler("add", "remove", "quantity-num");
 let Subtotal = document.querySelectorAll(".Subtotal")
-quantity()
+//* if happened any change in quantity
 function changeSubtotal() {
     for (let i = 0; i < addFromHome.length; i++ ){
         Subtotal[i].textContent = Number(addFromHome[i].price.slice(1)) * Number(addFromHome[i].quantity) 
@@ -204,7 +284,6 @@ function changeSubtotal() {
 changeSubtotal()
 
 // count the total price and Adjustable
-
 function countAnyChangePrice() {
     let finalPrice = 0
     for (let i = 0; i < addFromHome.length; i++) {
@@ -212,8 +291,8 @@ function countAnyChangePrice() {
     }
     // console.log(finalPrice);
     let sumItemsPrice = document.querySelector(".sumItemsPrice")
-    sumItemsPrice.innerHTML = `$${finalPrice}`
-    totalPrice.textContent = `$${finalPrice}` // if there isn't discount
+    sumItemsPrice.innerHTML = `$${Math.floor(finalPrice)}`
+    totalPrice.textContent = `$${Math.floor(finalPrice)}` // if there isn't discount
 }
 countAnyChangePrice()
 
@@ -238,16 +317,16 @@ function countFavProducts() {
         countTheProductsFAv.forEach((ele) => {
             ele.textContent = `${favArrFromHome.length}`
         })
+    }else {
+        document.querySelectorAll('.countTheProducts').forEach((ele)=> {
+            ele.style.display="none"
+        })
     }
 }
 
-// drop down list in mobile responsive for choice quantity 
-document.querySelector(".dropDown").addEventListener("click", () => {
-    document.querySelector('.menu').classList.toggle("hiddenDropDownList")
-})
-
 //* when you on click checkout make a function to check  if cart empty or not 
 function checkStatusCart() {
+    
     if (addFromHome.length == 0) { 
         let bodyContent = document.querySelector('.body-content')
         bodyContent.style.display = "none"
@@ -264,6 +343,5 @@ function checkStatusCart() {
     }
 } 
 checkStatusCart()
-
 
 
