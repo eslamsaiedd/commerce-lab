@@ -124,7 +124,7 @@ window.addEventListener("load", () => {
 
   //! i get the id by click on button (add to cart)
   let product_id;
-  allProduct.addEventListener("click", (event) => {
+  allProduct.addEventListener("pointerdown", (event) => {
     let positionClick = event.target;
     if (positionClick.classList.contains("addButton")) {
       product_id = positionClick.parentElement.parentElement.id;
@@ -186,7 +186,7 @@ window.addEventListener("load", () => {
   function addProductToCart() {
     let btn = document.querySelectorAll(".addButton");
     btn.forEach((ele) => {
-      ele.addEventListener('click', (e) => {
+      ele.addEventListener('pointerdown', (e) => {
 
         let element = {
           img: e.currentTarget.parentElement.parentElement.children[1].children[0].children[0]
@@ -211,7 +211,7 @@ window.addEventListener("load", () => {
     let favs = document.querySelectorAll(".fav");
 
     favs.forEach((fav) => {
-      fav.addEventListener("click", function addToFavorite(e) {
+      fav.addEventListener("pointerdown", function addToFavorite(e) {
         if (!e.currentTarget.classList.contains("clicked")) {
           fav.classList.add("clicked");
 
@@ -248,11 +248,11 @@ window.addEventListener("load", () => {
   }
 
   //! menu list
-  document.querySelector(".menu").addEventListener("click", () => {
+  document.querySelector(".menu").addEventListener("pointerdown", () => {
     document.querySelector(".list-menu").style.display = "flex";
   });
 
-  document.querySelector(".close-list").addEventListener("click", () => {
+  document.querySelector(".close-list").addEventListener("pointerdown", () => {
     document.querySelector(".list-menu").style.display = "none";
   });
 
@@ -312,7 +312,7 @@ window.addEventListener("load", () => {
 
   let customInput = document.querySelector("#custom-input");
   let darkMode = false;
-  customInput.addEventListener("click", function switchDarkMode() {
+  customInput.addEventListener("pointerdown", function switchDarkMode() {
     if (darkMode == false) {
       darkMode = true;
       document.querySelector("body").style.backgroundColor = "#000000d6";

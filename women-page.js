@@ -106,7 +106,7 @@ init();
 function changeHeart() {
   let favs = document.querySelectorAll(".fav");
   favs.forEach((fav) => {
-    fav.addEventListener("click", function addToFavorite(e) {
+    fav.addEventListener("pointerdown", function addToFavorite(e) {
       if (!e.currentTarget.classList.contains("clicked")) {
         fav.classList.add("clicked");
         let elem = {
@@ -143,7 +143,7 @@ addProductToCart();
 function addProductToCart() {
   let btn = document.querySelectorAll(".addButton");
   btn.forEach((e) => {
-    e.addEventListener("click", () => {
+    e.addEventListener("pointerdown", () => {
       let element = {
         img: e.parentElement.parentElement.children[1].children[0].children[0]
           .src,
@@ -179,10 +179,10 @@ function addedItem() {
 }
 
 //! menu list
-document.querySelector(".menu").addEventListener("click", () => {
+document.querySelector(".menu").addEventListener("pointerdown", () => {
   document.querySelector(".list-menu").style.display = "flex";
 });
-document.querySelector(".close-list").addEventListener("click", () => {
+document.querySelector(".close-list").addEventListener("pointerdown", () => {
   document.querySelector(".list-menu").style.display = "none";
 });
 

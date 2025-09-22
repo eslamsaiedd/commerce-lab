@@ -40,14 +40,14 @@ window.addEventListener("load", () => {
     count.textContent = currentQuantity;
 
     // increase
-    addBtn.addEventListener("click", () => {
+    addBtn.addEventListener("pointerdown", () => {
       currentQuantity++;
       count.textContent = currentQuantity;
       saveQuantity(productId, currentQuantity);
     });
 
     // decrease
-    minusBtn.addEventListener("click", () => {
+    minusBtn.addEventListener("pointerdown", () => {
       if (currentQuantity > 1) {
         currentQuantity--;
         count.textContent = currentQuantity;
@@ -104,7 +104,7 @@ window.addEventListener("load", () => {
   //! sending the main product to cart
 
   let addToCart = document.querySelector(".addToCart");
-  addToCart.addEventListener("click", function (e) {
+  addToCart.addEventListener("pointerdown", function (e) {
     let element = {
       img: e.currentTarget.parentElement.parentElement.parentElement.children[0]
         .children[0].children[0].src,
@@ -160,7 +160,7 @@ window.addEventListener("load", () => {
 //! delete the main product 
 
     let btn = document.querySelector('.removeIconAdded')
-    document.querySelector('.removeIconAdded').addEventListener('click',() => {
+    document.querySelector('.removeIconAdded').addEventListener('pointerdown',() => {
       if (btn.classList.contains("removeIconAdded")) {
 
         let filterArr = addFromHome.filter((item) => {
@@ -260,7 +260,7 @@ window.addEventListener("load", () => {
     //! add products for shopping page
 
     document.querySelectorAll(".sendToCart").forEach((product) => {
-      product.addEventListener("click", function addProductToShop(e) {
+      product.addEventListener("pointerdown", function addProductToShop(e) {
         let element = {
           img: e.currentTarget.parentElement.parentElement
           .children[1].children[0].children[0].src,
@@ -279,7 +279,7 @@ window.addEventListener("load", () => {
     //! send products to favorite page when I click on the favorite icon
 
     document.querySelectorAll(".fav").forEach((fav) => {
-      fav.addEventListener("click", function addToFavorite(e) {
+      fav.addEventListener("pointerdown", function addToFavorite(e) {
         if (!e.currentTarget.classList.contains("clicked")) {
           fav.classList.add("clicked");
           let elem = {
@@ -346,11 +346,11 @@ window.addEventListener("load", () => {
 
   //! show and hide menu list
 
-  document.querySelector(".menu").addEventListener("click", () => {
+  document.querySelector(".menu").addEventListener("pointerdown", () => {
     document.querySelector(".list-menu").style.display = "flex";
   });
 
-  document.querySelector(".close-list").addEventListener("click", () => {
+  document.querySelector(".close-list").addEventListener("pointerdown", () => {
     document.querySelector(".list-menu").style.display = "none";
   });
 
@@ -373,7 +373,7 @@ window.addEventListener("load", () => {
 
   //* send main product to favorite page
 
-  addProFromSinglePage.addEventListener("click", (e) => {
+  addProFromSinglePage.addEventListener("pointerdown", (e) => {
     addProFromSinglePage.classList.toggle("clicked");
 
     if (addProFromSinglePage.classList.contains("clicked")) {

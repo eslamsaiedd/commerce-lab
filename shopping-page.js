@@ -89,7 +89,7 @@ for (let i = 0; i < addFromHome.length; i++) {
 function deleteProduct() {
   let removeIcon = document.querySelectorAll(".remove-product span");
   removeIcon.forEach((cancel) => {
-    cancel.addEventListener("click", (e) => {
+    cancel.addEventListener("pointerdown", (e) => {
       e.currentTarget.parentElement.parentElement.parentElement.remove();
 
       let filteredArray = addFromHome.filter((ele) => {
@@ -115,7 +115,7 @@ function deleteProductResponsive() {
   let container = document.querySelector(".container");
 
   removeIcon.forEach((icon) => {
-    icon.addEventListener("click", (e) => {
+    icon.addEventListener("pointerdown", (e) => {
       container.classList.add("blurBackGround");
       alertMessage.style.display = "block";
 
@@ -167,7 +167,7 @@ discountCodeInput.addEventListener("input", function () {
   }
 });
 
-closeIconInput.addEventListener("click", function () {
+closeIconInput.addEventListener("pointerdown", function () {
   discountCodeInput.value = "";
   closeIconInput.style.display = "none";
   discountCodeInput.focus();
@@ -175,11 +175,11 @@ closeIconInput.addEventListener("click", function () {
 });
 
 //! menu list
-document.querySelector(".menu").addEventListener("click", () => {
+document.querySelector(".menu").addEventListener("pointerdown", () => {
   document.querySelector(".list-menu").style.display = "flex";
 });
 
-document.querySelector(".close-list").addEventListener("click", () => {
+document.querySelector(".close-list").addEventListener("pointerdown", () => {
   document.querySelector(".list-menu").style.display = "none";
 });
 
@@ -217,7 +217,7 @@ let discount = document.querySelector(".discount-price");
 let applyButton = document.querySelector(".apply-code");
 
 let couponApplied = false; // to check if this code used before or not 
-applyButton.addEventListener("click", (e) => {
+applyButton.addEventListener("pointerdown", (e) => {
   let finalPrice = 0;
   let isValid = false;
   for (let i = 0; i < validCoupon.length; i++) {
@@ -264,12 +264,12 @@ function quantityHandler(addClass, removeClass, counterClass) {
     counter[i].textContent = addFromHome[i].quantity || 1;
 
     // Increase
-    add[i].addEventListener("click", () => {
+    add[i].addEventListener("pointerdown", () => {
       updateQuantity(addFromHome[i].id, 1, counter[i]);
     });
 
     // Decrease
-    remove[i].addEventListener("click", (e) => {
+    remove[i].addEventListener("pointerdown", (e) => {
         
         if (counter[i].textContent == 1 ) {
             e.preventDefault()
