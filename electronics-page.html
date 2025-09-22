@@ -1,135 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./electronics-page.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./electronics-page.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
     <title>Electronics page</title>
-</head>
-<style>
-</style>
-<body>
-
+  </head>
+  <style></style>
+  <body>
     <div class="container">
+      <!-- menu list -->
 
-          <!-- menu list -->
-                 
-        <div class="list-menu">
-            <span class="material-symbols-outlined close-list">
-                close
+      <div class="list-menu">
+        <span class="material-symbols-outlined close-list"> close </span>
+        <div class="categoriesIntoMenu">
+          <a href="index.html">Home</a>
+          <a href="men-page.html">Men</a>
+          <a href="women-page.html">Women</a>
+          <a href="electronics-page.html">Electronics</a>
+        </div>
+        <div class="information">
+          <div class="favoritePageIntoMenu">
+            <span class="material-symbols-outlined"> favorite </span>
+            <a href="fav-page.html">
+              <div class="countTheProducts"></div>
+              Favorite page
+            </a>
+          </div>
+
+          <div class="shopping">
+            <span class="material-symbols-outlined style-cart">
+              shopping_cart
             </span>
-            <div class="categoriesIntoMenu">
-                <a href="index.html">Home</a>
-                <a href="men-page.html">Men</a>
-                <a href="women-page.html">Women</a>
-                <a href="electronics-page.html">Electronics</a>
-            </div>
-            <div class="information">
-                <div class="favoritePageIntoMenu">
-                    <span class="material-symbols-outlined ">
-                        favorite
-                    </span>
-                    <a href="fav-page.html">
-                        <div class="countTheProducts"></div>
-                        Favorite page
-                    </a>
-                </div>
-                
-                <div class="shopping">
-                    <span class="material-symbols-outlined style-cart" >
-                        shopping_cart
-                    </span>
-                    <a href="shopping-page.html">
-                        <div class="countTheProductsShop"></div>
-                        Shopping page
-                    </a>
-                </div>
-
-            </div>
+            <a href="shopping-page.html">
+              <div class="countTheProductsShop"></div>
+              Shopping page
+            </a>
+          </div>
         </div>
-                <!-- header -->
+      </div>
+      <!-- header -->
 
-        <header class="header">
-
-            <div class="menu">
-                <span class="material-symbols-outlined">
-                    menu
-                </span>
-            </div>
-            <div class="categories">
-                categories
-                <span class="material-symbols-outlined">
-                    arrow_drop_down
-                </span>
-                <div class="individualCategorie">
-                    <a href="index.html">Home</a>
-                    <a href="men-page.html">Men</a>
-                    <a href="women-page.html">Women</a>
-                </div>
-            </div>
-
-            <div class="search-bar">
-                <input type="text" id="searchInput" onkeyup="search()" class="input" placeholder="search..." >
-                <span class="material-symbols-outlined styleIcon">
-                    search
-                </span>
-            </div>
-
-            <div class="cart">
-
-                <div class="change-color">
-                    <!--? custom input checkbox for change color page -->
-                    <input type="checkbox" id="custom-input">
-                </div>
-                <div class="myAccount">
-                    <a href="">
-                        <span class="material-symbols-outlined">
-                            person
-                        </span>
-                    </a>
-                </div>
-                <div class="favorite-page ">
-                    <a class="" href="fav-page.html">
-                        <span class="material-symbols-outlined">
-                            favorite
-                        </span>
-                        <div class="countTheProducts"></div>
-                    </a>
-                    <div class="header-fav"></div>
-                </div>
-
-                <div class="shopping">
-                    <a href="shopping-page.html">
-                        <span class="material-symbols-outlined style-cart" >
-                            shopping_cart
-                        </span>
-                        <div class="countTheProductsShop"></div>
-                    </a>
-                </div>
-
-            </div>
-        </header>
-
-        <div class="routes">
-            <a class="pervious-route" href="./index.html">Home</a>
-            /
-            <a class="current-route" href="">Electronics</a>
+      <header class="header">
+        <div class="menu">
+          <span class="material-symbols-outlined"> menu </span>
+        </div>
+        <div class="categories">
+          categories
+          <span class="material-symbols-outlined"> arrow_drop_down </span>
+          <div class="individualCategorie">
+            <a href="index.html">Home</a>
+            <a href="men-page.html">Men</a>
+            <a href="women-page.html">Women</a>
+          </div>
         </div>
 
-        <div class="products">
-            <div class="header-title">Electronic products</div>
-            <div class="all-product"></div>
+        <div class="search-bar">
+          <input
+            type="text"
+            id="searchInput"
+            onkeyup="search()"
+            class="input"
+            placeholder="search..."
+          />
+          <span class="material-symbols-outlined styleIcon"> search </span>
         </div>
 
-        <div class="toastr">
-            <span class="material-symbols-outlined toastr-heart">
-                favorite
-            </span>
-            <a href="fav-page.html">Product added to cart successfully</a>
+        <div class="cart">
+          <div class="change-color">
+            <!--? custom input checkbox for change color page -->
+            <input type="checkbox" id="custom-input" />
+          </div>
+          <div class="myAccount">
+            <a href="">
+              <span class="material-symbols-outlined"> person </span>
+            </a>
+          </div>
+          <div class="favorite-page">
+            <a class="" href="fav-page.html">
+              <span class="material-symbols-outlined"> favorite </span>
+              <div class="countTheProducts"></div>
+            </a>
+            <div class="header-fav"></div>
+          </div>
+
+          <div class="shopping">
+            <a href="shopping-page.html">
+              <span class="material-symbols-outlined style-cart">
+                shopping_cart
+              </span>
+              <div class="countTheProductsShop"></div>
+            </a>
+          </div>
         </div>
+      </header>
+
+      <div class="routes">
+        <a class="pervious-route" href="./index.html">Home</a>
+        /
+        <a class="current-route" href="">Electronics</a>
+      </div>
+
+      <div class="products">
+        <div class="header-title">Electronic products</div>
+        <div class="all-product"></div>
+      </div>
+
+      <div class="toastr">
+        <span class="material-symbols-outlined toastr-heart"> favorite </span>
+        <a href="fav-page.html">Product added to cart successfully</a>
+      </div>
     </div>
-
 
     <script src="./electronics-page.js"></script>
     <!-- <script >
@@ -302,5 +287,5 @@
         lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; 
         });
     </script> -->
-</body>
+  </body>
 </html>
